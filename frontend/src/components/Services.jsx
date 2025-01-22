@@ -58,9 +58,7 @@ const Services = ({ sectionRefs }) => {
               <h3 className="text-xl font-semibold text-textBase mb-2">
                 {item.title}
               </h3>
-              <p className="text-textSecondary overflow-auto">
-                {item.description}
-              </p>
+              <p className="text-textSecondary">{item.description}</p>
             </div>
           ))}
         </div>

@@ -30,14 +30,7 @@ const Contact = ({ sectionRefs }) => {
   return (
     <section ref={sectionRefs?.contact} className="py-16 bg-inherit">
       <div className="container mx-auto px-4">
-        <span className="text-3xl  font-semibold text-center text-textBase mb-8">
-          {configurationData?.contact && configurationData?.contact[0]?.title}
-        </span>
         <div className="max-w-md mx-auto">
-          <p className="text-center text-textSecondary mb-4">
-            {configurationData?.contact &&
-              configurationData?.contact[0]?.description}
-          </p>
           <div className="my-2 text-center">
             <p className="text-textBase">{contactsData.name}</p>
             <p className="text-textBase">{`Email: ${contactsData.email}`}</p>

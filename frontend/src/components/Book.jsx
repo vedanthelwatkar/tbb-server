@@ -86,14 +86,27 @@ const Book = ({ sectionRefs }) => {
     >
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-center md:space-x-12 space-y-12 md:space-y-0">
+          <div className="w-full md:w-1/2 max-w-md mx-auto">
+            <h2 className="text-3xl md:text-4xl font-semibold text-center text-primary mb-8">
+              Contact Us
+            </h2>
+            <div className="p-6 flex rounded-lg bg-white shadow-lg">
+              <div className="flex flex-col my-2 text-start gap-2">
+                <p className="text-primary">{contactsData.name}</p>
+                <p className="text-primary">{`Email: ${contactsData.email}`}</p>
+                <p className="text-primary">{`Phone: ${contactsData.phone}`}</p>
+                <p className="text-primary">Address: {contactsData.address}</p>
+              </div>
+            </div>
+          </div>
           <div className="w-full md:w-1/2">
-            <h2 className="text-3xl md:text-4xl font-semibold text-center text-[#193500] mb-8">
+            <h2 className="text-3xl md:text-4xl font-semibold text-center text-primary mb-8">
               Book an Appointment
             </h2>
             <div className="bg-white p-6 rounded-lg shadow-lg">
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <label className="block text-[#375846] font-medium">
+                  <label className="block text-primary font-medium">
                     Your Name
                   </label>
                   <input
@@ -112,7 +125,7 @@ const Book = ({ sectionRefs }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-[#375846] font-medium">
+                  <label className="block text-primary font-medium">
                     Your Email
                   </label>
                   <input
@@ -131,7 +144,7 @@ const Book = ({ sectionRefs }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-[#375846] font-medium">
+                  <label className="block text-primary font-medium">
                     Your Phone
                   </label>
                   <input
@@ -150,7 +163,7 @@ const Book = ({ sectionRefs }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-[#375846] font-medium">
+                  <label className="block text-primary font-medium">
                     Preferred Date
                   </label>
                   <input
@@ -188,24 +201,6 @@ const Book = ({ sectionRefs }) => {
                   </div>
                 )}
               </form>
-            </div>
-          </div>
-
-          <div className="w-full md:w-1/2 max-w-md mx-auto">
-            <h2 className="text-3xl md:text-4xl font-semibold text-center text-[#193500] mb-8">
-              Contact Us
-            </h2>
-            <div className="p-6 rounded-lg bg-white shadow-lg">
-              <p className="text-center text-[#375846] mb-8">
-                {configurationData?.contact &&
-                  configurationData?.contact[0]?.description}
-              </p>
-              <div className="my-2 text-center">
-                <p className="text-[#193500]">{contactsData.name}</p>
-                <p className="text-[#193500]">{`Email: ${contactsData.email}`}</p>
-                <p className="text-[#193500]">{`Phone: ${contactsData.phone}`}</p>
-                <p className="text-[#193500]">{contactsData.address}</p>
-              </div>
             </div>
           </div>
         </div>

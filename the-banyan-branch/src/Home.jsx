@@ -25,7 +25,7 @@ export default function Home() {
     home: useRef(null),
     about: useRef(null),
     services: useRef(null),
-    book: useRef(null),
+    contact: useRef(null),
   };
 
   useEffect(() => {
