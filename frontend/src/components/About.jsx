@@ -41,7 +41,7 @@ const About = ({ sectionRefs, scrollToSection }) => {
       <div className="absolute inset-0 bg-gradient-to-t from-tertiary to-background bg-opacity-60 backdrop-blur-sm"></div>
       <div className="container mx-auto px-4 relative z-10">
         <h2
-          className={`text-4xl md:text-6xl font-bold text-center text-textBase mb-20 transform transition-all duration-1000 ${
+          className={`text-4xl font-bold text-center text-textBase mb-20 transform transition-all duration-1000 ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
           }`}
         >
@@ -74,7 +74,7 @@ const About = ({ sectionRefs, scrollToSection }) => {
           >
             {configurationData?.about?.map((item, index) => (
               <div key={index}>
-                <p className="text-xl text-textSecondary leading-relaxed">
+                <p className="text-lg text-textSecondary leading-relaxed">
                   {item.description}
                 </p>
               </div>
