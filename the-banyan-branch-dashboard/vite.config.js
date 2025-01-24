@@ -12,6 +12,7 @@ export default defineConfig({
       host: "thebanyanbranch.com",
       protocol: "wss",
     },
+    allowedHosts: ["thebanyanbranch.com", "www.thebanyanbranch.com"],
   },
   preview: {
     host: true,
