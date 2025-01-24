@@ -70,7 +70,7 @@ const Book = ({ sectionRefs }) => {
   useEffect(() => {
     if (appointmentSuccess) {
       toast.success("Appointment booked successfully!", {
-        position: "top-right",
+        position: "bottom",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -91,7 +91,7 @@ const Book = ({ sectionRefs }) => {
       toast.error(
         appointmentError.error || "Booking failed. Please try again.",
         {
-          position: "top-right",
+          position: "bottom",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -127,7 +127,6 @@ const Book = ({ sectionRefs }) => {
       <ToastContainer />
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-center md:space-x-12 space-y-12 md:space-y-0">
-          {/* Contact Information Section */}
           <div className="w-full md:w-1/2 max-w-md mx-auto">
             <h2 className="text-3xl md:text-4xl font-semibold text-center text-primary mb-8">
               Contact Us
@@ -142,14 +141,12 @@ const Book = ({ sectionRefs }) => {
             </div>
           </div>
 
-          {/* Booking Form Section */}
           <div className="w-full md:w-1/2">
             <h2 className="text-3xl md:text-4xl font-semibold text-center text-primary mb-8">
               Book an Appointment
             </h2>
             <div className="bg-white p-6 rounded-lg shadow-lg">
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Name Input */}
                 <div className="space-y-2">
                   <label className="block text-primary font-medium">
                     Your Name
@@ -169,7 +166,6 @@ const Book = ({ sectionRefs }) => {
                   )}
                 </div>
 
-                {/* Email Input */}
                 <div className="space-y-2">
                   <label className="block text-primary font-medium">
                     Your Email
@@ -189,7 +185,6 @@ const Book = ({ sectionRefs }) => {
                   )}
                 </div>
 
-                {/* Phone Input */}
                 <div className="space-y-2">
                   <label className="block text-primary font-medium">
                     Your Phone
@@ -209,7 +204,6 @@ const Book = ({ sectionRefs }) => {
                   )}
                 </div>
 
-                {/* Date Input */}
                 <div className="space-y-2">
                   <label className="block text-primary font-medium">
                     Preferred Date
@@ -229,7 +223,6 @@ const Book = ({ sectionRefs }) => {
                   )}
                 </div>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
