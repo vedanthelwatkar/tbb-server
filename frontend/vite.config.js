@@ -7,11 +7,11 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 5173,
     strictPort: true,
-    hmr: {
-      host: "thebanyanbranch.com",
-      protocol: "wss",
-    },
-    allowedHosts: ["thebanyanbranch.com", "www.thebanyanbranch.com"],
+    // hmr: {
+    //   host: "thebanyanbranch.com",
+    //   protocol: "wss",
+    // },
+    // allowedHosts: ["thebanyanbranch.com", "www.thebanyanbranch.com"],
   },
   preview: {
     host: true,

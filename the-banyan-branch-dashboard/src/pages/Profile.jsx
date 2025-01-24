@@ -29,6 +29,7 @@ const Profile = () => {
   const [api, contextHolder] = notification.useNotification({ maxCount: 1 });
   const { profileData, updateProfileSuccess, updateProfileError } =
     useSelector(profileSelector);
+  console.log("profileData: ", profileData);
   const isMobile = window.screen.width < 768;
 
   const handleSave = () => {

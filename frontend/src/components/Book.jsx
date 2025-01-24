@@ -1,5 +1,11 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import PhoneInput from "react-phone-number-input/input";
+import "react-phone-number-input/style.css";
 import {
   bookSelector,
   configurationSelector,
@@ -13,6 +19,7 @@ const Book = ({ sectionRefs }) => {
     email: "",
     phone: "",
     date: "",
+    countryCode: "",
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,7 +32,13 @@ const Book = ({ sectionRefs }) => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.name) newErrors.name = "Name is required";
+
+    if (!formData.name?.trim()) {
+      newErrors.name = "Name is required";
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+    }
+
     if (!formData.email) {
       newErrors.email = "Email is required";
     } else if (
@@ -33,12 +46,14 @@ const Book = ({ sectionRefs }) => {
     ) {
       newErrors.email = "Invalid email address";
     }
+
     if (!formData.phone) {
-      newErrors.phone = "Phone is required";
-    } else if (!/^[0-9]{10}$/i.test(formData.phone)) {
-      newErrors.phone = "Invalid phone number";
+      newErrors.phone = "Phone number is required";
     }
-    if (!formData.date) newErrors.date = "Date is required";
+
+    if (!formData.date) {
+      newErrors.date = "Preferred date is required";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -52,40 +67,67 @@ const Book = ({ sectionRefs }) => {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name == "phone") {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: Number(value),
-      }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };
-
   useEffect(() => {
     if (appointmentSuccess) {
+      toast.success("Appointment booked successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
       setFormData({
         name: "",
         email: "",
         phone: "",
         date: "",
+        countryCode: "",
       });
     }
+
+    if (appointmentError) {
+      toast.error(
+        appointmentError.error || "Booking failed. Please try again.",
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        }
+      );
+    }
+
     setIsSubmitting(appointmentLoading);
   }, [appointmentSuccess, appointmentError, appointmentLoading]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handlePhoneChange = (value) => {
+    setFormData((prev) => ({
+      ...prev,
+      phone: value || "",
+    }));
+  };
 
   return (
     <section
       ref={sectionRefs?.contact}
-      className="pt-12 pb-28 bg-gradient-to-t from-[#DCF7D4] to-white"
+      className="pt-12 pb-28 bg-gradient-to-t from-tertiary to-white"
     >
+      <ToastContainer />
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-center md:space-x-12 space-y-12 md:space-y-0">
+          {/* Contact Information Section */}
           <div className="w-full md:w-1/2 max-w-md mx-auto">
             <h2 className="text-3xl md:text-4xl font-semibold text-center text-primary mb-8">
               Contact Us
@@ -99,12 +141,15 @@ const Book = ({ sectionRefs }) => {
               </div>
             </div>
           </div>
+
+          {/* Booking Form Section */}
           <div className="w-full md:w-1/2">
             <h2 className="text-3xl md:text-4xl font-semibold text-center text-primary mb-8">
               Book an Appointment
             </h2>
             <div className="bg-white p-6 rounded-lg shadow-lg">
               <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Name Input */}
                 <div className="space-y-2">
                   <label className="block text-primary font-medium">
                     Your Name
@@ -124,6 +169,7 @@ const Book = ({ sectionRefs }) => {
                   )}
                 </div>
 
+                {/* Email Input */}
                 <div className="space-y-2">
                   <label className="block text-primary font-medium">
                     Your Email
@@ -143,25 +189,27 @@ const Book = ({ sectionRefs }) => {
                   )}
                 </div>
 
+                {/* Phone Input */}
                 <div className="space-y-2">
                   <label className="block text-primary font-medium">
                     Your Phone
                   </label>
-                  <input
-                    type="tel"
-                    name="phone"
+                  <PhoneInput
+                    international
+                    defaultCountry="US"
                     value={formData.phone}
-                    onChange={handleChange}
+                    onChange={handlePhoneChange}
                     className={`w-full px-4 py-2 rounded-md border ${
                       errors.phone ? "border-red-500" : "border-[#8DB45C]"
                     } focus:outline-none focus:ring-2 focus:ring-[#0D530B]`}
-                    placeholder="1234567890"
+                    placeholder="Enter phone number"
                   />
                   {errors.phone && (
                     <p className="text-red-500 text-sm">{errors.phone}</p>
                   )}
                 </div>
 
+                {/* Date Input */}
                 <div className="space-y-2">
                   <label className="block text-primary font-medium">
                     Preferred Date
@@ -181,6 +229,7 @@ const Book = ({ sectionRefs }) => {
                   )}
                 </div>
 
+                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -188,18 +237,6 @@ const Book = ({ sectionRefs }) => {
                 >
                   {isSubmitting ? "Booking..." : "Book Now"}
                 </button>
-
-                {appointmentSuccess && (
-                  <div className="text-green-500 text-sm mt-2">
-                    Appointment booked successfully!
-                  </div>
-                )}
-
-                {appointmentError && appointmentError.error && (
-                  <div className="text-red-500 text-sm mt-2">
-                    {appointmentError.error}
-                  </div>
-                )}
               </form>
             </div>
           </div>
