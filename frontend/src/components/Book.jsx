@@ -64,7 +64,7 @@ const Book = ({ sectionRefs }) => {
   useEffect(() => {
     if (appointmentSuccess) {
       toast.success("Appointment booked successfully!", {
-        position: "bottom-center",
+        position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -85,7 +85,7 @@ const Book = ({ sectionRefs }) => {
       toast.error(
         appointmentError.error || "Booking failed. Please try again.",
         {
-          position: "bottom-center",
+          position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
