@@ -15,7 +15,6 @@ import {
   Gift,
   Map,
 } from "lucide-react";
-import { withLazyLoad } from "../helper/LazyLoadComponent";
 
 const Services = ({ sectionRefs }) => {
   const { configurationData } = useSelector(configurationSelector);

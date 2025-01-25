@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { configurationSelector } from "../redux/selector/selector";
 import { Leaf, Target, Compass } from "lucide-react";
 import nature from "../assets/nature.jpg";
-import { withLazyLoad } from "../helper/LazyLoadComponent";
 
 const About = ({ sectionRefs, scrollToSection }) => {
   const { configurationData } = useSelector(configurationSelector);

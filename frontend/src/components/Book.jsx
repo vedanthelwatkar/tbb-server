@@ -7,7 +7,6 @@ import PhoneInput from "react-phone-number-input/input";
 import "react-phone-number-input/style.css";
 import { bookSelector, contactsSelector } from "../redux/selector/selector";
 import { bookAppointments, resetBooking } from "../redux/slice/BookSlice";
-import { withLazyLoad } from "../helper/LazyLoadComponent";
 
 const Book = ({ sectionRefs }) => {
   const [formData, setFormData] = useState({
