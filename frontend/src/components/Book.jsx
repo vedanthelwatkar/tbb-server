@@ -7,6 +7,7 @@ import PhoneInput from "react-phone-number-input/input";
 import "react-phone-number-input/style.css";
 import { bookSelector, contactsSelector } from "../redux/selector/selector";
 import { bookAppointments, resetBooking } from "../redux/slice/BookSlice";
+import { withLazyLoad } from "../helper/LazyLoadComponent";
 
 const Book = ({ sectionRefs }) => {
   const [formData, setFormData] = useState({
@@ -123,27 +124,31 @@ const Book = ({ sectionRefs }) => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-center md:space-x-12 space-y-12 md:space-y-0">
           <div className="w-full md:w-1/2 max-w-md mx-auto">
-            <h2 className="text-3xl md:text-4xl font-semibold text-center text-primary mb-8">
+            <h2 className="text-3xl md:text-4xl font-semibold text-center text-primary mb-8 animate-text-blur">
               Contact Us
             </h2>
             <div className="p-6 flex rounded-lg bg-white shadow-lg">
               <div className="flex flex-col my-2 text-start gap-2">
-                <p className="text-primary">{contactsData.name}</p>
-                <p className="text-primary">{`Email: ${contactsData.email}`}</p>
-                <p className="text-primary">{`Phone: ${contactsData.phone}`}</p>
-                <p className="text-primary">Address: {contactsData.address}</p>
+                <p className="text-primary animate-text-blur-1">
+                  {contactsData.name}
+                </p>
+                <p className="text-primary animate-text-blur-1">{`Email: ${contactsData.email}`}</p>
+                <p className="text-primary animate-text-blur-1">{`Phone: ${contactsData.phone}`}</p>
+                <p className="text-primary animate-text-blur-1">
+                  Address: {contactsData.address}
+                </p>
               </div>
             </div>
           </div>
 
           <div className="w-full md:w-1/2">
-            <h2 className="text-3xl md:text-4xl font-semibold text-center text-primary mb-8">
+            <h2 className="text-3xl md:text-4xl font-semibold text-center text-primary mb-8 animate-text-blur">
               Book an Appointment
             </h2>
             <div className="bg-white p-6 rounded-lg shadow-lg">
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <label className="block text-primary font-medium">
+                  <label className="block text-primary font-medium animate-text-blur-1">
                     Your Name
                   </label>
                   <input
@@ -162,7 +167,7 @@ const Book = ({ sectionRefs }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-primary font-medium">
+                  <label className="block text-primary font-medium animate-text-blur-1">
                     Your Email
                   </label>
                   <input
@@ -181,7 +186,7 @@ const Book = ({ sectionRefs }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-primary font-medium">
+                  <label className="block text-primary font-medium animate-text-blur-1">
                     Your Phone
                   </label>
                   <PhoneInput
@@ -200,7 +205,7 @@ const Book = ({ sectionRefs }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-primary font-medium">
+                  <label className="block text-primary font-medium animate-text-blur-1">
                     Preferred Date
                   </label>
                   <input
@@ -234,4 +239,4 @@ const Book = ({ sectionRefs }) => {
   );
 };
 
-export default Book;
+export default withLazyLoad(Book);

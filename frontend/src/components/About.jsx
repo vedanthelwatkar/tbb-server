@@ -1,10 +1,9 @@
-"use client";
-
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { configurationSelector } from "../redux/selector/selector";
 import { Leaf, Target, Compass } from "lucide-react";
 import nature from "../assets/nature.jpg";
+import { withLazyLoad } from "../helper/LazyLoadComponent";
 
 const About = ({ sectionRefs, scrollToSection }) => {
   const { configurationData } = useSelector(configurationSelector);
@@ -87,11 +86,11 @@ const About = ({ sectionRefs, scrollToSection }) => {
                 : "opacity-0 translate-x-10"
             }`}
           >
-            <h2 className="text-4xl font-bold text-primary mb-6">
+            <h2 className="text-4xl font-bold text-primary mb-6 animate-text-blur">
               {configurationData?.about?.[0]?.title || "About My Journey"}
             </h2>
 
-            <div className="text-textSecondary leading-relaxed space-y-4">
+            <div className="text-textSecondary leading-relaxed space-y-4 animate-text-blur-1">
               {configurationData?.about?.map((item, index) => (
                 <p key={index}>{item.description}</p>
               ))}
@@ -114,10 +113,10 @@ const About = ({ sectionRefs, scrollToSection }) => {
                 ))}
               </div>
               <div className="bg-secondary/50 p-6 rounded-xl">
-                <h3 className="text-xl font-semibold text-primary mb-2">
+                <h3 className="text-xl font-semibold text-primary mb-2 animate-text-blur">
                   {features[activeIndex].title}
                 </h3>
-                <p className="text-textSecondary">
+                <p className="text-textSecondary animate-text-blur-1">
                   {features[activeIndex].description}
                 </p>
               </div>
@@ -144,4 +143,4 @@ const About = ({ sectionRefs, scrollToSection }) => {
   );
 };
 
-export default About;
+export default withLazyLoad(About);

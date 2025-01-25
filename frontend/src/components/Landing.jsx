@@ -18,16 +18,15 @@ const Landing = ({ sectionRefs, scrollToSection }) => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid md:grid-cols-[2fr_1fr] items-center gap-12">
-          {/* Left Content with Offset */}
           <div className="md:pl-12 space-y-8">
             <div className="relative inline-block group">
-              <h1 className="text-5xl md:text-6xl font-extrabold text-primary tracking-tight relative">
+              <h1 className="text-5xl md:text-6xl font-extrabold text-primary tracking-tight relative animate-text-blur">
                 {configurationData?.home && configurationData?.home[0]?.title}
                 <span className="absolute -bottom-2 left-0 w-full h-1 bg-primary/30 origin-left transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></span>
               </h1>
             </div>
 
-            <p className="text-xl text-textSecondary leading-relaxed">
+            <p className="text-xl text-textSecondary leading-relaxed animate-text-blur-1">
               {configurationData?.home &&
                 configurationData?.home[0]?.description}
             </p>
@@ -47,7 +46,6 @@ const Landing = ({ sectionRefs, scrollToSection }) => {
             </button>
           </div>
 
-          {/* Right Side: Logo with Decorative Elements */}
           <div className="relative flex justify-center items-center">
             <div className="w-full max-w-md relative group">
               <div className="absolute -inset-4 bg-primary/10 rounded-2xl transform -rotate-6 group-hover:rotate-0 transition-transform duration-500"></div>
@@ -57,7 +55,6 @@ const Landing = ({ sectionRefs, scrollToSection }) => {
                 className="relative z-10 w-full h-auto object-contain rounded-2xl transform transition-transform duration-500 group-hover:scale-105 shadow-xl"
               />
 
-              {/* Floating Decorative Icons */}
               <div className="absolute -top-8 -left-8 bg-white/80 p-3 rounded-full shadow-md animate-float">
                 <Leaf className="text-primary" size={24} />
               </div>

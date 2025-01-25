@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { configurationSelector } from "../redux/selector/selector";
@@ -17,6 +15,7 @@ import {
   Gift,
   Map,
 } from "lucide-react";
+import { withLazyLoad } from "../helper/LazyLoadComponent";
 
 const Services = ({ sectionRefs }) => {
   const { configurationData } = useSelector(configurationSelector);
@@ -50,7 +49,7 @@ const Services = ({ sectionRefs }) => {
     const carousel = carouselRef.current;
     if (!carousel || services.length === 0) return;
 
-    const cardWidth = 320; // w-80 is 320px
+    const cardWidth = 320;
     const containerWidth = carousel.clientWidth;
     const totalCarouselWidth = services.length * cardWidth;
     const centerOffset = (totalCarouselWidth - containerWidth) / 2;
@@ -79,7 +78,7 @@ const Services = ({ sectionRefs }) => {
       className="pt-8 bg-gradient-to-b from-tertiary to-background overflow-hidden"
     >
       <div className="px-4 md:px-12 w-full items-center justify-center flex flex-col">
-        <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-12 animate-text-blur">
           Our Services
         </h2>
         <div
@@ -102,27 +101,20 @@ const Services = ({ sectionRefs }) => {
               >
                 <div className="flex flex-col items-center text-center p-6 rounded-lg shadow-md h-full bg-secondary">
                   <Icon className="h-12 w-12 text-primary mb-4" />
-                  <h3 className="text-xl font-semibold text-primary mb-2">
+                  <h3 className="text-xl font-semibold text-primary mb-2 animate-text-blur-1">
                     {item.title}
                   </h3>
-                  <p className="text-textSecondary">{item.description}</p>
+                  <p className="text-textSecondary animate-text-blur-2">
+                    {item.description}
+                  </p>
                 </div>
               </div>
             );
           })}
         </div>
       </div>
-      <style jsx>{`
-        .service-item.in-view {
-          opacity: 1 !important;
-          transform: scale(1) !important;
-        }
-        ::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </section>
   );
 };
 
-export default Services;
+export default withLazyLoad(Services);
