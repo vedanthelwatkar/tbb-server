@@ -3,14 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import PhoneInput from "react-phone-number-input/input";
 import "react-phone-number-input/style.css";
-import {
-  bookSelector,
-  configurationSelector,
-  contactsSelector,
-} from "../redux/selector/selector";
+import { bookSelector, contactsSelector } from "../redux/selector/selector";
 import { bookAppointments, resetBooking } from "../redux/slice/BookSlice";
 
 const Book = ({ sectionRefs }) => {
@@ -25,7 +20,6 @@ const Book = ({ sectionRefs }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { contactsData } = useSelector(contactsSelector);
-  const { configurationData } = useSelector(configurationSelector);
   const { appointmentSuccess, appointmentError, appointmentLoading } =
     useSelector(bookSelector);
   const dispatch = useDispatch();
@@ -70,7 +64,7 @@ const Book = ({ sectionRefs }) => {
   useEffect(() => {
     if (appointmentSuccess) {
       toast.success("Appointment booked successfully!", {
-        position: "bottom",
+        position: "bottom-center",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -91,7 +85,7 @@ const Book = ({ sectionRefs }) => {
       toast.error(
         appointmentError.error || "Booking failed. Please try again.",
         {
-          position: "bottom",
+          position: "bottom-center",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -102,6 +96,7 @@ const Book = ({ sectionRefs }) => {
     }
 
     setIsSubmitting(appointmentLoading);
+    dispatch(resetBooking());
   }, [appointmentSuccess, appointmentError, appointmentLoading]);
 
   const handleChange = (e) => {
@@ -191,7 +186,7 @@ const Book = ({ sectionRefs }) => {
                   </label>
                   <PhoneInput
                     international
-                    defaultCountry="US"
+                    country="IN"
                     value={formData.phone}
                     onChange={handlePhoneChange}
                     className={`w-full px-4 py-2 rounded-md border ${

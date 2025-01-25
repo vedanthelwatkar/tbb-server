@@ -39,3 +39,58 @@
 .no-visible-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* Custom styles for toast notifications */
+.Toastify__toast-container {
+  width: auto;
+  max-width: 400px;
+  padding: 0;
+}
+
+.Toastify__toast {
+  font-family: inherit;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 1rem;
+}
+
+.Toastify__toast--success {
+  background-color: #f0f9eb;
+  color: #0d530b;
+  border: 1px solid #8db45c;
+}
+
+.Toastify__toast--error {
+  background-color: #fef0f0;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.Toastify__toast-body {
+  padding: 0;
+  margin: 0;
+}
+
+.Toastify__progress-bar {
+  height: 3px;
+  opacity: 0.7;
+}
+
+.Toastify__progress-bar--success {
+  background-color: #8db45c;
+}
+
+.Toastify__progress-bar--error {
+  background-color: #721c24;
+}
+
+.Toastify__close-button {
+  align-self: center;
+  color: currentColor;
+  opacity: 0.5;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1;
+}
