@@ -9,7 +9,6 @@ const Appointments = () => {
   const dispatch = useDispatch();
   const [sort, setSort] = useState("asc");
   const { bookData, bookLoading } = useSelector(boookSelector);
-  console.log("bookData: ", bookData);
 
   useEffect(() => {
     dispatch(getAppointments(sort));

@@ -10,13 +10,32 @@ import {
   Leaf,
   PersonStanding,
   Sun,
+  Award,
+  Briefcase,
+  Clipboard,
+  Compass,
+  Gift,
+  Map,
 } from "lucide-react";
 
 const Services = ({ sectionRefs }) => {
   const { configurationData } = useSelector(configurationSelector);
   const [services, setServices] = useState([]);
   const carouselRef = useRef(null);
-  const icons = [Leaf, Heart, Sun, Brain, BookHeart, PersonStanding];
+  const icons = [
+    Leaf,
+    Heart,
+    Sun,
+    Brain,
+    BookHeart,
+    PersonStanding,
+    Award,
+    Briefcase,
+    Clipboard,
+    Compass,
+    Gift,
+    Map,
+  ];
 
   useEffect(() => {
     const serviceData = configurationData?.services?.map((item, index) => ({

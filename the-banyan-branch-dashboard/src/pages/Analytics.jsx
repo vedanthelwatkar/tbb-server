@@ -30,7 +30,6 @@ const Analytics = () => {
   const [timeRange, setTimeRange] = useState("month");
   const dispatch = useDispatch();
   const { analyticsData: analytics } = useSelector(analyticsSelector);
-  console.log("analytics: ", analytics);
 
   useEffect(() => {
     dispatch(getAnalytics());
