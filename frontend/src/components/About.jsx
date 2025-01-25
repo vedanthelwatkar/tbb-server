@@ -3,8 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { configurationSelector } from "../redux/selector/selector";
-import { Leaf, Target, Compass, Layers } from "lucide-react";
-import logo from "../assets/logo.png";
+import { Leaf, Target, Compass } from "lucide-react";
+import nature from "../assets/nature.jpg";
 
 const About = ({ sectionRefs, scrollToSection }) => {
   const { configurationData } = useSelector(configurationSelector);
@@ -73,7 +73,7 @@ const About = ({ sectionRefs, scrollToSection }) => {
             <div className="aspect-square w-full max-w-md mx-auto relative">
               <div className="absolute inset-0 bg-primary/10 rounded-full animate-pulse group-hover:animate-none"></div>
               <img
-                src={logo}
+                src={nature}
                 alt="Profile"
                 className="absolut rounded-full object-cover z-10 shadow-2xl group-hover:scale-105 transition-transform"
               />
