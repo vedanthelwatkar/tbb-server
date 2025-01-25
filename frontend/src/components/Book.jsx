@@ -239,4 +239,4 @@ const Book = ({ sectionRefs }) => {
   );
 };
 
-export default withLazyLoad(Book);
+export default Book;

@@ -73,18 +73,3 @@ const Landing = ({ sectionRefs, scrollToSection }) => {
 };
 
 export default Landing;
-
-// Tailwind CSS Custom Animations
-const styles = `
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-  .animate-float {
-    animation: float 4s ease-in-out infinite;
-  }
-  .animate-float-delayed {
-    animation: float 4s ease-in-out infinite;
-    animation-delay: 2s;
-  }
-`;

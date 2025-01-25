@@ -143,4 +143,4 @@ const About = ({ sectionRefs, scrollToSection }) => {
   );
 };
 
-export default withLazyLoad(About);
+export default About;

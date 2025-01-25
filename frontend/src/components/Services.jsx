@@ -117,4 +117,4 @@ const Services = ({ sectionRefs }) => {
   );
 };
 
-export default withLazyLoad(Services);
+export default Services;
