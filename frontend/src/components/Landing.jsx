@@ -12,7 +12,7 @@ const Landing = ({ sectionRefs, scrollToSection }) => {
   return (
     <section
       ref={sectionRefs?.home}
-      className="h-[calc(100vh-68px)] flex items-center relative overflow-hidden"
+      className="pt-6 min-h-[calc(100vh-68px)] flex items-center relative overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-tertiary to-background opacity-50 blur-xl"></div>
 
