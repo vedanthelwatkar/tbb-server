@@ -53,7 +53,14 @@ const DashboardLayout = () => {
               : "1px solid rgb(240, 240, 240)",
           }}
         >
-          <SideBar />
+          <div
+            style={{
+              height: "calc(100vh - 64px)",
+              overflowY: "auto",
+            }}
+          >
+            <SideBar />
+          </div>
           <Flex className="absolute -right-10 bottom-8">
             <Button
               type="text"
