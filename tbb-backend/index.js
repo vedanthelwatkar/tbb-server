@@ -15,9 +15,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// app.use(rateLimiter);
+app.use(rateLimiter);
 
-app.use("/auth", authRoutes);
+app.use("/", authRoutes);
 app.use("/constants", constantsRoutes);
 app.use("/branding", brandingRoutes);
 app.use("/profile", profileRoutes);
