@@ -55,7 +55,7 @@ const DashboardLayout = () => {
         >
           <div
             style={{
-              height: "calc(100vh - 64px)",
+              height: "100%",
               overflowY: "auto",
             }}
           >

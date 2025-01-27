@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { ArrowRight, Leaf, Target } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useSelector } from "react-redux";
-import nature from "../assets/logo.png";
+import logo from "../assets/logo.png";
 import { configurationSelector } from "../redux/selector/selector";
 
 const Landing = ({ sectionRefs, scrollToSection }) => {
@@ -50,17 +50,10 @@ const Landing = ({ sectionRefs, scrollToSection }) => {
             <div className="w-full max-w-md relative group">
               <div className="absolute -inset-4 bg-primary/10 rounded-2xl transform -rotate-6 group-hover:rotate-0 transition-transform duration-500"></div>
               <img
-                src={nature}
+                src={logo}
                 alt="Logo"
                 className="relative z-10 w-full h-auto object-contain rounded-2xl transform transition-transform duration-500 group-hover:scale-105 shadow-xl"
               />
-
-              <div className="absolute -top-8 -left-8 bg-white/80 p-3 rounded-full shadow-md animate-float">
-                <Leaf className="text-primary" size={24} />
-              </div>
-              <div className="absolute -bottom-8 -right-8 bg-white/80 p-3 rounded-full shadow-md animate-float-delayed">
-                <Target className="text-primary" size={24} />
-              </div>
             </div>
           </div>
         </div>

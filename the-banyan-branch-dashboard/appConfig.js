@@ -5,8 +5,8 @@ export const appconfig = {
 
 export const ApiEndPoints = {
   GET_CONSTANTS: "/constants/getConstants",
-  LOGIN_USER: "auth/login",
-  SIGNUP_USER: "auth/signup",
+  LOGIN_USER: "/auth/login",
+  SIGNUP_USER: "/auth/signup",
   UPDATE_BRANDING: "/branding/updateBranding",
   UPDATE_PROFILE: "/profile/updateProfile",
   GET_PROFILE: "/profile",
