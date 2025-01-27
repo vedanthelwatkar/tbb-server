@@ -8,13 +8,16 @@ import configureRoutes from "./routes/configureRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
 import bookRoutes from "./routes/bookRoutes.js";
+import { rateLimiter } from "./middlewares/rateLimiter.js";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.use("/", authRoutes);
+app.use(rateLimiter);
+
+app.use("/auth", authRoutes);
 app.use("/constants", constantsRoutes);
 app.use("/branding", brandingRoutes);
 app.use("/profile", profileRoutes);
