@@ -1,12 +1,15 @@
-import { connection } from "../db.js";
+import { pool } from "../db.js";
 
 export const getAnalytics = (req, res) => {
-  connection.query("SELECT * FROM analytics", (err, result) => {
+  pool.query("SELECT * FROM analytics", (err, results) => {
     if (err) {
-      res.status(500).json({ message: err.stack });
+      console.error("Database query error:", err.stack);
+      res
+        .status(500)
+        .json({ message: "Internal server error", error: err.stack });
       return;
     }
 
-    res.status(200).json({ message: result });
+    res.status(200).json({ message: "Success", data: results });
   });
 };

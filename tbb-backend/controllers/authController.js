@@ -1,4 +1,4 @@
-import { connection } from "../db.js";
+import { pool } from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -11,7 +11,7 @@ export const signin = (req, res) => {
       .json({ message: "Username and password are required" });
   }
 
-  connection.query(
+  pool.query(
     "SELECT * FROM users WHERE username = ? OR email = ?",
     [username, username],
     async (err, results) => {
@@ -78,7 +78,7 @@ export const signup = (req, res) => {
     });
   }
 
-  connection.query(
+  pool.query(
     "SELECT * FROM users WHERE username = ? OR email = ?",
     [username, email],
     async (err, results) => {
@@ -101,7 +101,7 @@ export const signup = (req, res) => {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        connection.query(
+        pool.query(
           `INSERT INTO users (username, password, email, name, created_at) 
            VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)`,
           [username, hashedPassword, email, name],
@@ -118,7 +118,7 @@ export const signup = (req, res) => {
                 .json({ message: "Internal server error", err });
             }
 
-            connection.query(
+            pool.query(
               "SELECT id, username, email, name, created_at FROM users WHERE id = ?",
               [result.insertId],
               (err, users) => {

@@ -1,10 +1,10 @@
-import { connection } from "../db.js";
+import { pool } from "../db.js";
 
 export const getDetails = (req, res) => {
   const { page } = req.query;
   const query = `SELECT * FROM ${page.toLowerCase()}`;
 
-  connection.query(query, (err, result) => {
+  pool.query(query, (err, result) => {
     if (err) {
       return res.status(500).json({ error: "Something went wrong", err });
     }
@@ -22,7 +22,7 @@ export const getAllDetails = (req, res) => {
     SELECT * FROM contact;
   `;
 
-  connection.query(query, (err, result) => {
+  pool.query(query, (err, result) => {
     if (err) {
       return res
         .status(500)
@@ -46,7 +46,7 @@ export const deleteDetails = (req, res) => {
     return res.status(400).json({ message: "Missing id or page parameter" });
   }
 
-  connection.query(`DELETE FROM ${page} WHERE id = ?`, [id], (err, result) => {
+  pool.query(`DELETE FROM ${page} WHERE id = ?`, [id], (err, result) => {
     if (err) {
       console.error("Delete error:", err);
       return res.status(500).send({ error: "Something went wrong" });
@@ -65,7 +65,7 @@ export const updateDetails = (req, res) => {
 
   data.forEach((item) => {
     if (item.id) {
-      connection.query(
+      pool.query(
         `UPDATE ${page} SET title = ?, description = ? WHERE id = ?`,
         [item.title, item.description, item.id],
         (err) => {
@@ -75,7 +75,7 @@ export const updateDetails = (req, res) => {
         }
       );
     } else {
-      connection.query(
+      pool.query(
         `INSERT INTO ${page} (title, description) VALUES (?, ?)`,
         [item.title, item.description],
         (err) => {

@@ -1,17 +1,14 @@
-import { connection } from "../db.js";
+import { pool } from "../db.js";
 
 export const updateProfile = (req, res) => {
-  const profileData = req.body;
-  const name = connection.escape(profileData.name);
-  const email = connection.escape(profileData.email);
-  const phone = connection.escape(profileData.phone);
-  const address = connection.escape(profileData.address);
+  const { name, email, phone, address } = req.body;
 
-  const query = `UPDATE profile SET name = ${name}, email = ${email}, phone = ${phone}, address = ${address}`;
+  const query = `UPDATE profile 
+                 SET name = ?, email = ?, phone = ?, address = ?`;
 
-  connection.query(query, (err) => {
+  pool.query(query, [name, email, phone, address], (err) => {
     if (err) {
-      return res.status(500).json({ error: "Something went wrong" });
+      return res.status(500).json({ error: "Something went wrong", err });
     }
 
     res.status(200).json({ message: "Profile updated successfully" });
@@ -19,7 +16,7 @@ export const updateProfile = (req, res) => {
 };
 
 export const getProfile = (req, res) => {
-  connection.query("SELECT * FROM profile", (err, results) => {
+  pool.query("SELECT * FROM profile", (err, results) => {
     if (err) {
       return res.status(500).json({ error: "Something went wrong" });
     }

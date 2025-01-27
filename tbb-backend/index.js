@@ -34,6 +34,10 @@ app.use((err, req, res, next) => {
   });
 });
 
+process.on("unhandledRejection", (err) => {
+  console.error("Unhandled Promise Rejection:", err);
+});
+
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
