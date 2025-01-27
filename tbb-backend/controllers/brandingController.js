@@ -1,3 +1,5 @@
+import { pool } from "../db.js";
+
 export const updateBranding = (req, res) => {
   const data = req.body;
   const {
