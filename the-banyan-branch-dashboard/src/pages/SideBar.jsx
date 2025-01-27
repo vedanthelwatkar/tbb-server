@@ -100,7 +100,11 @@ const SideBar = () => {
   }, [location]);
 
   return (
-    <Flex vertical className="w-full h-full justify-between">
+    <Flex
+      vertical
+      className="w-full justify-between"
+      style={{ height: "calc(100% - 64px)" }}
+    >
       <Flex vertical className="mt-4">
         <Menu
           onClick={handleMenuClick}

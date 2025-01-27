@@ -17,7 +17,7 @@ app.use(express.json());
 
 app.use(rateLimiter);
 
-app.use("/", authRoutes);
+app.use("/auth", authRoutes);
 app.use("/constants", constantsRoutes);
 app.use("/branding", brandingRoutes);
 app.use("/profile", profileRoutes);
