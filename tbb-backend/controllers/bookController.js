@@ -1,5 +1,6 @@
 import fs from "fs";
 import { pool } from "../db.js";
+import { transporter } from "../mailService.js";
 
 const backupAppointment = (appointmentData) => {
   const backupFilePath = "./appointments_backup.json";
@@ -50,7 +51,7 @@ export const bookAppointment = (req, res) => {
   pool.query(query, [name, email, phone, date], (err, results) => {
     if (err) {
       if (err.errno == 1062) {
-        res.status(409).json({ error: "Already Booked!", err });
+        res.status(409).json({ error: "Already Booked !", err });
         return;
       }
       res.status(500).json({ error: "Something went wrong!", err });
@@ -127,19 +128,21 @@ export const bookAppointment = (req, res) => {
 
     transporter
       .sendMail({
-        from: '"Your Clinic Name 🏥" <your-email@gmail.com>',
+        from: '"The Banyan Branch 🏥" <vedannnnnnt@gmail.com>',
         to: "helwatkarvedant@gmail.com",
         subject: `New Appointment: ${name} - ${formattedDate}`,
         text: `New appointment booked by ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
         html: emailTemplate,
       })
       .then(() => {
-        res.status(200).json({ message: "Appointment Booked!" });
+        res.status(200).json({ message: "Appointment Booked !" });
       })
       .catch((error) => {
         console.error("Email sending failed:", error);
-        res.status(200).json({ message: "Appointment Booked!" });
+        res.status(200).json({ message: "Appointment Booked !" });
       });
+
+    res.status(200).json({ message: "Appointment Booked !" });
   });
 };
 
