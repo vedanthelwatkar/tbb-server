@@ -119,7 +119,7 @@ export const bookAppointment = (req, res) => {
             </div>
             <div class="footer">
               <p>This is an automated message. Please do not reply to this email.</p>
-              <p>© ${new Date().getFullYear()} Your Clinic Name. All rights reserved.</p>
+              <p>© ${new Date().getFullYear()} The Banyan Branch. All rights reserved.</p>
             </div>
           </div>
         </body>
