@@ -9,17 +9,8 @@ import authRoutes from "./routes/authRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
 import bookRoutes from "./routes/bookRoutes.js";
 import { rateLimiter } from "./middlewares/rateLimiter.js";
-import { transporter } from "./mailService.js";
 
 const app = express();
-
-// transporter.sendMail({
-//   from: '"TBB SERVER 👻" <vedannnnnnt@gmail.com>', // sender address
-//   to: "helwatkarvedant@gmail.com", // list of receivers
-//   subject: "Hello ✔", // Subject line
-//   text: "Hello world?", // plain text body
-//   html: "<b>Hello world?</b>", // html body
-// });
 
 app.use(cors());
 app.use(express.json());
