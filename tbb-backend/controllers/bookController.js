@@ -3,7 +3,7 @@ import { pool } from "../db.js";
 import { transporter } from "../mailService.js";
 
 const backupAppointment = (appointmentData) => {
-  const backupFilePath = "./appointments_backup.json";
+  const backupFilePath = "../appointments_backup.json";
 
   fs.readFile(backupFilePath, "utf8", (err, data) => {
     let appointments = [];
