@@ -180,13 +180,13 @@ export const bookAppointment = (req, res) => {
         <div class="header">
           <i class="fas fa-tree tree-icon"></i>
           <h2>New Appointment Confirmed</h2>
-          <p style="opacity: 0.9; font-weight: 300;">The Banyan Branch Wellness Center</p>
+          <p style="opacity: 0.9; font-weight: 300;">The Banyan Branch</p>
         </div>
         <div class="content">
           <p>We're pleased to confirm your upcoming appointment with the following details:</p>
           
           <div class="appointment-details">
-            <p><strong>Patient Name:</strong> ${name}</p>
+            <p><strong>Client Name:</strong> ${name}</p>
             <p><strong>Contact Email:</strong> ${email}</p>
             <p><strong>Phone Number:</strong> ${phone}</p>
             <p><strong>Appointment Date:</strong> ${formattedDate}</p>
