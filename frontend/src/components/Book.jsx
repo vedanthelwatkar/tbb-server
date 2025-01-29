@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
-import PhoneInput from "react-phone-number-input/input";
+import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { bookSelector, contactsSelector } from "../redux/selector/selector";
 import { bookAppointments, resetBooking } from "../redux/slice/BookSlice";
@@ -14,7 +14,6 @@ const Book = ({ sectionRefs }) => {
     email: "",
     phone: "",
     date: "",
-    countryCode: "",
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,12 +40,16 @@ const Book = ({ sectionRefs }) => {
       newErrors.email = "Invalid email address";
     }
 
-    if (!formData.phone) {
-      newErrors.phone = "Phone number is required";
-    }
-
     if (!formData.date) {
       newErrors.date = "Preferred date is required";
+    }
+
+    if (!formData.phone) {
+      newErrors.phone = "Phone number is required";
+    } else if (formData.phone.length > 15) {
+      newErrors.phone = "Phone number is too long";
+    } else if (formData.phone.length < 8) {
+      newErrors.phone = "Phone number is too short";
     }
 
     setErrors(newErrors);
@@ -77,7 +80,6 @@ const Book = ({ sectionRefs }) => {
         email: "",
         phone: "",
         date: "",
-        countryCode: "",
       });
     }
 
@@ -190,13 +192,16 @@ const Book = ({ sectionRefs }) => {
                   </label>
                   <PhoneInput
                     international
-                    country="IN"
+                    countryCallingCodeEditable={false}
+                    defaultCountry="IN"
                     value={formData.phone}
                     onChange={handlePhoneChange}
                     className={`w-full px-4 py-2 rounded-md border ${
                       errors.phone ? "border-red-500" : "border-[#8DB45C]"
                     } focus:outline-none focus:ring-2 focus:ring-[#0D530B]`}
                     placeholder="Enter phone number"
+                    withCountryCallingCode={true}
+                    flags={true}
                   />
                   {errors.phone && (
                     <p className="text-red-500 text-sm">{errors.phone}</p>
