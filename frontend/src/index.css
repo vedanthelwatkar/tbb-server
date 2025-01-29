@@ -145,3 +145,7 @@
   animation: float 4s ease-in-out infinite;
   animation-delay: 2s;
 }
+
+.PhoneInputInput {
+  outline: none;
+}
