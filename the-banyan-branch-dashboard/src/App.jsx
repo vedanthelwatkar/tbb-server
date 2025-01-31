@@ -98,7 +98,7 @@ const AppRoutes = () => {
 
 const App = () => {
   return (
-    <BrowserRouter basename="/dashboard">
+    <BrowserRouter>
       <AppRoutes />
     </BrowserRouter>
   );
