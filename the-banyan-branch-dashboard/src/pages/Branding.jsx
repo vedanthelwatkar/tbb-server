@@ -210,7 +210,7 @@ const Branding = () => {
           >
             <iframe
               ref={iframeRef}
-              src="https://www.thebanyanbranch.com/"
+              src="https://thebanyanbranch.com/"
               title="Website Preview"
               className="w-full h-[600px] border-0"
             />
