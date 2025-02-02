@@ -364,8 +364,8 @@ export const bookAppointment = (req, res) => {
 
     transporter
       .sendMail({
-        from: '"The Banyan Branch 🏥" <vedannnnnnt@gmail.com>',
-        to: "helwatkarvedant@gmail.com",
+        from: '"The Banyan Branch 🏥"write2priya.r@gmail.com',
+        to: "info@thebanyanbranch.com",
         subject: `New Appointment: ${name} - ${formattedDate}`,
         text: `New appointment booked by ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
         html: emailTemplate,
@@ -380,7 +380,7 @@ export const bookAppointment = (req, res) => {
 
     transporter
       .sendMail({
-        from: '"The Banyan Branch 🏥" <vedannnnnnt@gmail.com>',
+        from: '"The Banyan Branch 🏥"write2priya.r@gmail.com',
         to: `${email}`,
         subject: `Appointment Confirmation: ${name} - ${formattedDate}`,
         text: `Appointment booked for ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
