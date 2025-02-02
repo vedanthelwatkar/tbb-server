@@ -193,7 +193,7 @@ const Book = ({ sectionRefs }) => {
                   <PhoneInput
                     international
                     countryCallingCodeEditable={false}
-                    defaultCountry="IN"
+                    defaultCountry="AU"
                     value={formData.phone}
                     onChange={handlePhoneChange}
                     className={`w-full px-4 py-2 rounded-md border ${
