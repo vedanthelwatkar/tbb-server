@@ -36,38 +36,38 @@ const backupAppointment = (appointmentData) => {
 export const bookAppointment = (req, res) => {
   const { name, email, phone, date, time } = req.body;
 
-  const appointmentDateTime = new Date(`${date}T${time}`);
+  const [year, month, day] = date.split("-");
+  const [hours, minutes] = time.split(":");
 
-  const formattedDate = appointmentDateTime.toLocaleString("en-US", {
+  const appointmentDate = new Date(year, month - 1, day, hours, minutes);
+
+  const formattedDate = appointmentDate.toLocaleString("en-AU", {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Australia/Adelaide", // ACDT timezone
+    hour: "numeric",
+    minute: "numeric",
+    timeZone: "Australia/Adelaide",
   });
 
-  const query = `INSERT INTO appointment (name, email, phone, date) 
-     VALUES (?, ?, ?, ?)`;
+  const query = `INSERT INTO appointment (name, email, phone, date, time) 
+     VALUES (?, ?, ?, ?, ?)`;
 
-  pool.query(
-    query,
-    [name, email, phone, appointmentDateTime],
-    (err, results) => {
-      if (err) {
-        if (err.errno == 1062) {
-          res.status(409).json({ error: "Already Booked!", err });
-          return;
-        }
-        res.status(500).json({ error: "Something went wrong!", err });
+  pool.query(query, [name, email, phone, date, time], (err, results) => {
+    if (err) {
+      if (err.errno == 1062) {
+        res.status(409).json({ error: "Already Booked!", err });
         return;
       }
+      res.status(500).json({ error: "Something went wrong!", err });
+      return;
+    }
 
-      const appointmentData = { name, email, phone, date: appointmentDateTime };
-      backupAppointment(appointmentData);
+    const appointmentData = { name, email, phone, date, time };
+    backupAppointment(appointmentData);
 
-      const emailTemplate = `
+    const emailTemplate = `
      <!DOCTYPE html>
       <html>
       <head>
@@ -195,7 +195,7 @@ export const bookAppointment = (req, res) => {
             <p><strong>Client Name:</strong> ${name}</p>
             <p><strong>Contact Email:</strong> ${email}</p>
             <p><strong>Phone Number:</strong> ${phone}</p>
-            <p><strong>Appointment Date:</strong> ${formattedDate}</p>
+            <p><strong>Appointment Date and Time:</strong> ${formattedDate}</p>
           </div>
           
           <p style="margin-top: 20px; font-size: 14px; color: #666;">
@@ -214,7 +214,7 @@ export const bookAppointment = (req, res) => {
       </html>
     `;
 
-      const clientTemplate = `
+    const clientTemplate = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -346,7 +346,7 @@ export const bookAppointment = (req, res) => {
           <div class="appointment-card">
             <div class="detail-row">
               <i class="fas fa-calendar"></i>
-              <strong>Session Date:</strong> ${formattedDate}
+              <strong>Session Date and Time:</strong> ${formattedDate}
             </div>
             <div class="detail-row">
               <i class="fas fa-video"></i>
@@ -368,48 +368,43 @@ export const bookAppointment = (req, res) => {
     </html>
     `;
 
-      transporter
-        .sendMail({
-          from: '"The Banyan Branch 🏥"write2priya.r@gmail.com',
-          to: "vedanthelwatkar@gmail.com",
-          subject: `New Appointment: ${name} - ${formattedDate}`,
-          text: `New appointment booked by ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
-          html: emailTemplate,
-        })
-        .then(() => {
-          res.status(200).json({ message: "Appointment Booked !" });
-        })
-        .catch((error) => {
-          console.error("Email sending failed:", error);
-          res.status(200).json({ message: "Appointment Booked !" });
-        });
-
-      transporter
-        .sendMail({
-          from: '"The Banyan Branch 🏥"write2priya.r@gmail.com',
-          to: `${email}`,
-          subject: `Appointment Confirmation: ${name} - ${formattedDate}`,
-          text: `Appointment booked for ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
-          html: clientTemplate,
-        })
-        .then(() => {
-          res.status(200).json({ message: "Appointment Booked !" });
-        })
-        .catch((error) => {
-          console.error("Email sending failed:", error);
-          res.status(200).json({ message: "Appointment Booked !" });
-        });
-
-      res.status(200).json({ message: "Appointment Booked !" });
-    }
-  );
+    Promise.all([
+      transporter.sendMail({
+        from: '"The Banyan Branch 🏥" <write2priya.r@gmail.com>',
+        to: "vedanthelwatkar@gmail.com",
+        subject: `New Appointment: ${name} - ${formattedDate}`,
+        text: `New appointment booked by ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
+        html: emailTemplate,
+      }),
+      transporter.sendMail({
+        from: '"The Banyan Branch 🏥" <write2priya.r@gmail.com>',
+        to: email,
+        subject: `Appointment Confirmation: ${name} - ${formattedDate}`,
+        text: `Appointment booked for ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
+        html: clientTemplate,
+      }),
+    ])
+      .then(() => {
+        res.status(200).json({ message: "Appointment Booked!" });
+      })
+      .catch((error) => {
+        console.error("Email sending failed:", error);
+        res
+          .status(200)
+          .json({
+            message: "Appointment Booked, but email notification failed.",
+          });
+      });
+  });
 };
 
 export const getAppointments = (req, res) => {
   const { sort = "asc" } = req.query;
   const order = sort.toLowerCase() === "desc" ? "DESC" : "ASC";
 
-  const query = `SELECT * FROM appointment ORDER BY date ${order}`;
+  const query = `SELECT *, DATE_FORMAT(date, '%Y-%m-%d') AS formatted_date, 
+                 TIME_FORMAT(time, '%H:%i') AS formatted_time 
+                 FROM appointment ORDER BY date ${order}, time ${order}`;
 
   pool.query(query, (err, results) => {
     if (err) {
