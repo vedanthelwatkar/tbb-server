@@ -15,12 +15,24 @@ const Book = ({ sectionRefs }) => {
     time: "",
   });
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { contactsData } = useSelector(contactsSelector);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { appointmentSuccess, appointmentError, appointmentLoading } =
     useSelector(bookSelector);
   const dispatch = useDispatch();
+
+  const disableNonMonTueDates = (e) => {
+    const day = new Date(e.target.value).getDay();
+    if (day !== 1 && day !== 2) {
+      e.target.value = "";
+      toast.error("Please select only Monday or Tuesday", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+    }
+    handleChange(e);
+  };
 
   const generateTimeSlots = () => {
     const slots = [];
@@ -77,6 +89,10 @@ const Book = ({ sectionRefs }) => {
   };
 
   useEffect(() => {
+    setIsSubmitting(appointmentLoading);
+  }, [appointmentLoading]);
+
+  useEffect(() => {
     if (appointmentSuccess) {
       toast.success("Appointment booked successfully!", {
         position: "top-center",
@@ -110,9 +126,8 @@ const Book = ({ sectionRefs }) => {
       );
     }
 
-    setIsSubmitting(appointmentLoading);
     dispatch(resetBooking());
-  }, [appointmentSuccess, appointmentError, appointmentLoading]);
+  }, [appointmentSuccess, appointmentError]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -132,7 +147,7 @@ const Book = ({ sectionRefs }) => {
   return (
     <section
       ref={sectionRefs?.contact}
-      className="pt-12 pb-28 bg-gradient-to-t from-tertiary to-white"
+      className="pt-12 pb-28 bg-gradient-to-t from-tertiary to-background"
     >
       <ToastContainer />
       <div className="container mx-auto px-4">
@@ -233,13 +248,13 @@ const Book = ({ sectionRefs }) => {
 
                 <div className="space-y-2">
                   <label className="block text-primary font-medium animate-text-blur-1">
-                    Preferred Date
+                    Preferred Date (Monday/Tuesday only)
                   </label>
                   <input
                     type="date"
                     name="date"
                     value={formData.date}
-                    onChange={handleChange}
+                    onChange={disableNonMonTueDates}
                     min={new Date().toISOString().split("T")[0]}
                     className={`w-full px-4 py-2 rounded-md border ${
                       errors.date ? "border-red-500" : "border-[#8DB45C]"
@@ -282,10 +297,12 @@ const Book = ({ sectionRefs }) => {
 
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || appointmentLoading}
                   className="w-full bg-[#0D530B] hover:bg-[#8DB45C] text-white py-2 px-4 rounded-md transition-colors duration-300 disabled:opacity-50"
                 >
-                  {isSubmitting ? "Booking..." : "Book Now"}
+                  {isSubmitting || appointmentLoading
+                    ? "Booking..."
+                    : "Book Now"}
                 </button>
               </form>
             </div>

@@ -6,15 +6,32 @@ export const getConstants = createAsyncThunk(
   "getConstants",
   async ({ isDashboard }, { rejectWithValue }) => {
     try {
-      let response = await axios({
+      const response = await axios({
         method: "GET",
         url: `${appconfig.BASE_URL}${ApiEndPoints.GET_CONSTANTS}?dashboard=${isDashboard}`,
         headers: returnHeader(true),
       });
-      return response;
+      return response.data;
     } catch (e) {
       console.error(e);
-      return rejectWithValue(e);
+      return rejectWithValue(e.response?.data || e.message);
+    }
+  }
+);
+
+export const getIsActive = createAsyncThunk(
+  "getIsActive",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `${appconfig.BASE_URL}${ApiEndPoints.GET_CONSTANTS}`,
+        headers: returnHeader(true),
+      });
+      return response.data.brandTheme.isActive;
+    } catch (e) {
+      console.error(e);
+      return rejectWithValue(e.response?.data || e.message);
     }
   }
 );
@@ -25,6 +42,7 @@ const GetConstantsSlice = createSlice({
     data: null,
     error: null,
     loading: false,
+    isWebActive: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -33,13 +51,25 @@ const GetConstantsSlice = createSlice({
     });
     builder.addCase(getConstants.fulfilled, (state, action) => {
       state.loading = false;
-      state.data = action.payload.data;
+      state.data = action.payload;
       state.error = false;
     });
     builder.addCase(getConstants.rejected, (state, action) => {
       state.loading = false;
-      state.error = true;
-      state.data = action.payload;
+      state.error = action.payload;
+    });
+
+    builder.addCase(getIsActive.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getIsActive.fulfilled, (state, action) => {
+      state.loading = false;
+      state.isWebActive = action.payload;
+      state.error = false;
+    });
+    builder.addCase(getIsActive.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
     });
   },
 });

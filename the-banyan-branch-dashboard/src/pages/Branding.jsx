@@ -7,6 +7,8 @@ import {
   Form,
   notification,
   Space,
+  Switch,
+  Typography,
 } from "antd";
 import CardTitle from "../components/CardTitle";
 import {
@@ -15,10 +17,14 @@ import {
   updateBranding,
 } from "../redux/slice/BrandingSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { brandingSelector } from "../redux/selector/selectors";
+import {
+  brandingSelector,
+  getConstantsSelector,
+} from "../redux/selector/selectors";
 import { openNotificationWithIcon } from "../helper";
 import FontPicker from "../components/FontPicker";
 import { ReloadOutlined } from "@ant-design/icons";
+import { getIsActive } from "../redux/slice/GetConstantsSlice";
 
 const Branding = () => {
   const isMobile = window.screen.width < 768;
@@ -30,6 +36,7 @@ const Branding = () => {
     updateBrandingError,
     updateBrandingLoading,
   } = useSelector(brandingSelector);
+  const { isWebActive } = useSelector(getConstantsSelector);
 
   const [primaryColor, setPrimaryColor] = useState("");
   const [secondaryColor, setSecondaryColor] = useState("");
@@ -37,6 +44,7 @@ const Branding = () => {
   const [textBaseColor, setTextBaseColor] = useState("");
   const [textSecondaryColor, setTextSecondaryColor] = useState("");
   const [themeFont, setThemeFont] = useState("");
+  const [isActive, setIsActive] = useState(false);
 
   const [api, contextHolder] = notification.useNotification({ maxCount: 1 });
 
@@ -49,7 +57,7 @@ const Branding = () => {
   };
 
   const handleSubmit = (values) => {
-    dispatch(updateBranding(values));
+    dispatch(updateBranding({ ...values, isActive: isActive }));
     handleReload();
   };
 
@@ -82,6 +90,7 @@ const Branding = () => {
 
   useEffect(() => {
     dispatch(getBranding());
+    dispatch(getIsActive());
   }, [dispatch]);
 
   useEffect(() => {
@@ -119,6 +128,10 @@ const Branding = () => {
     }
   }, [updateBrandingSuccess, updateBrandingError]);
 
+  useEffect(() => {
+    setIsActive(isWebActive);
+  }, [isWebActive]);
+
   return (
     <>
       {contextHolder}
@@ -126,13 +139,22 @@ const Branding = () => {
         bordered
         title={<CardTitle title="Branding" />}
         extra={
-          <Button
-            type="primary"
-            onClick={() => form.submit()}
-            disabled={updateBrandingLoading}
-          >
-            Save
-          </Button>
+          <Flex gap={16} className="items-center justify-center">
+            <Flex gap={8}>
+              <Typography.Text>Is Website Active</Typography.Text>
+              <Switch
+                value={isActive}
+                onChange={() => setIsActive(Number(!isActive))}
+              />
+            </Flex>
+            <Button
+              type="primary"
+              onClick={() => form.submit()}
+              disabled={updateBrandingLoading}
+            >
+              Save
+            </Button>
+          </Flex>
         }
       >
         <Flex gap={24} className="w-full" vertical={isMobile}>

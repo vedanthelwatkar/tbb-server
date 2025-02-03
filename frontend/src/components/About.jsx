@@ -57,7 +57,7 @@ const About = ({ sectionRefs, scrollToSection }) => {
         sectionRef.current = el;
         if (sectionRefs?.about) sectionRefs.about.current = el;
       }}
-      className="py-6 relative overflow-hidden bg-gradient-to-t from-tertiary to-white"
+      className="py-6 relative overflow-hidden bg-gradient-to-t from-tertiary to-background"
     >
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid md:grid-cols-2 gap-12 items-center">
