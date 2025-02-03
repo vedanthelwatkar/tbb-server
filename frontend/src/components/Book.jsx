@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import PhoneInput from "react-phone-number-input";
@@ -14,6 +12,7 @@ const Book = ({ sectionRefs }) => {
     email: "",
     phone: "",
     date: "",
+    time: "",
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -22,6 +21,15 @@ const Book = ({ sectionRefs }) => {
   const { appointmentSuccess, appointmentError, appointmentLoading } =
     useSelector(bookSelector);
   const dispatch = useDispatch();
+
+  const generateTimeSlots = () => {
+    const slots = [];
+    for (let hour = 11; hour <= 17; hour++) {
+      const time = `${hour.toString().padStart(2, "0")}:00`;
+      slots.push(time);
+    }
+    return slots;
+  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -52,6 +60,10 @@ const Book = ({ sectionRefs }) => {
       newErrors.phone = "Phone number is too short";
     }
 
+    if (!formData.time) {
+      newErrors.time = "Preferred time is required";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -80,6 +92,7 @@ const Book = ({ sectionRefs }) => {
         email: "",
         phone: "",
         date: "",
+        time: "",
       });
     }
 
@@ -190,19 +203,29 @@ const Book = ({ sectionRefs }) => {
                   <label className="block text-primary font-medium animate-text-blur-1">
                     Your Phone
                   </label>
-                  <PhoneInput
-                    international
-                    countryCallingCodeEditable={false}
-                    defaultCountry="AU"
-                    value={formData.phone}
-                    onChange={handlePhoneChange}
-                    className={`w-full px-4 py-2 rounded-md border ${
+                  <div
+                    className={`relative ${
                       errors.phone ? "border-red-500" : "border-[#8DB45C]"
-                    } focus:outline-none focus:ring-2 focus:ring-[#0D530B]`}
-                    placeholder="Enter phone number"
-                    withCountryCallingCode={true}
-                    flags={true}
-                  />
+                    } border rounded-md focus-within:ring-2 focus-within:ring-[#0D530B] px-4 py-2`}
+                  >
+                    <PhoneInput
+                      international
+                      countryCallingCodeEditable={false}
+                      defaultCountry="AU"
+                      value={formData.phone}
+                      onChange={handlePhoneChange}
+                      className="w-full"
+                      inputClassName="w-full px-4 py-2 rounded-md border-none focus:outline-none"
+                      placeholder="Enter phone number"
+                      withCountryCallingCode={true}
+                      flags={true}
+                      onCountryChange={(country) => {
+                        if (country === " ") {
+                          handlePhoneChange("+61");
+                        }
+                      }}
+                    />
+                  </div>
                   {errors.phone && (
                     <p className="text-red-500 text-sm">{errors.phone}</p>
                   )}
@@ -224,6 +247,36 @@ const Book = ({ sectionRefs }) => {
                   />
                   {errors.date && (
                     <p className="text-red-500 text-sm">{errors.date}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-primary font-medium animate-text-blur-1">
+                    Preferred Time (ACDT)
+                  </label>
+                  <select
+                    name="time"
+                    value={formData.time}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, time: e.target.value }))
+                    }
+                    className={`w-full px-4 py-2 rounded-md border ${
+                      errors.time ? "border-red-500" : "border-[#8DB45C]"
+                    } focus:outline-none focus:ring-2 focus:ring-[#0D530B]`}
+                  >
+                    <option value="">Select a time</option>
+                    {generateTimeSlots().map((time) => (
+                      <option key={time} value={time}>
+                        {time} -{" "}
+                        {time === "17:00"
+                          ? "17:50"
+                          : `${Number.parseInt(time) + 1}:50`}{" "}
+                        ACDT
+                      </option>
+                    ))}
+                  </select>
+                  {errors.time && (
+                    <p className="text-red-500 text-sm">{errors.time}</p>
                   )}
                 </div>
 

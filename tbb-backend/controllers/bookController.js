@@ -36,32 +36,38 @@ const backupAppointment = (appointmentData) => {
 export const bookAppointment = (req, res) => {
   const { name, email, phone, date } = req.body;
 
-  const formattedDate = new Date(date).toLocaleString("en-US", {
+  const appointmentDateTime = new Date(`${date}T${time}`);
+
+  const formattedDate = appointmentDateTime.toLocaleString("en-US", {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "Australia/Adelaide", // ACDT timezone
   });
 
   const query = `INSERT INTO appointment (name, email, phone, date) 
      VALUES (?, ?, ?, ?)`;
 
-  pool.query(query, [name, email, phone, date], (err, results) => {
-    if (err) {
-      if (err.errno == 1062) {
-        res.status(409).json({ error: "Already Booked !", err });
+  pool.query(
+    query,
+    [name, email, phone, appointmentDateTime],
+    (err, results) => {
+      if (err) {
+        if (err.errno == 1062) {
+          res.status(409).json({ error: "Already Booked!", err });
+          return;
+        }
+        res.status(500).json({ error: "Something went wrong!", err });
         return;
       }
-      res.status(500).json({ error: "Something went wrong!", err });
-      return;
-    }
 
-    const appointmentData = { name, email, phone, date };
-    backupAppointment(appointmentData);
+      const appointmentData = { name, email, phone, date: appointmentDateTime };
+      backupAppointment(appointmentData);
 
-    const emailTemplate = `
+      const emailTemplate = `
      <!DOCTYPE html>
       <html>
       <head>
@@ -208,7 +214,7 @@ export const bookAppointment = (req, res) => {
       </html>
     `;
 
-    const clientTemplate = `
+      const clientTemplate = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -362,40 +368,41 @@ export const bookAppointment = (req, res) => {
     </html>
     `;
 
-    transporter
-      .sendMail({
-        from: '"The Banyan Branch 🏥"info@thebanyanbranch.com',
-        to: "info@thebanyanbranch.com",
-        subject: `New Appointment: ${name} - ${formattedDate}`,
-        text: `New appointment booked by ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
-        html: emailTemplate,
-      })
-      .then(() => {
-        res.status(200).json({ message: "Appointment Booked !" });
-      })
-      .catch((error) => {
-        console.error("Email sending failed:", error);
-        res.status(200).json({ message: "Appointment Booked !" });
-      });
+      transporter
+        .sendMail({
+          from: '"The Banyan Branch 🏥"',
+          to: "info@thebanyanbranch.com",
+          subject: `New Appointment: ${name} - ${formattedDate}`,
+          text: `New appointment booked by ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
+          html: emailTemplate,
+        })
+        .then(() => {
+          res.status(200).json({ message: "Appointment Booked !" });
+        })
+        .catch((error) => {
+          console.error("Email sending failed:", error);
+          res.status(200).json({ message: "Appointment Booked !" });
+        });
 
-    transporter
-      .sendMail({
-        from: '"The Banyan Branch 🏥"info@thebanyanbranch.com',
-        to: `${email}`,
-        subject: `Appointment Confirmation: ${name} - ${formattedDate}`,
-        text: `Appointment booked for ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
-        html: clientTemplate,
-      })
-      .then(() => {
-        res.status(200).json({ message: "Appointment Booked !" });
-      })
-      .catch((error) => {
-        console.error("Email sending failed:", error);
-        res.status(200).json({ message: "Appointment Booked !" });
-      });
+      transporter
+        .sendMail({
+          from: '"The Banyan Branch 🏥"',
+          to: `${email}`,
+          subject: `Appointment Confirmation: ${name} - ${formattedDate}`,
+          text: `Appointment booked for ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
+          html: clientTemplate,
+        })
+        .then(() => {
+          res.status(200).json({ message: "Appointment Booked !" });
+        })
+        .catch((error) => {
+          console.error("Email sending failed:", error);
+          res.status(200).json({ message: "Appointment Booked !" });
+        });
 
-    res.status(200).json({ message: "Appointment Booked !" });
-  });
+      res.status(200).json({ message: "Appointment Booked !" });
+    }
+  );
 };
 
 export const getAppointments = (req, res) => {
