@@ -4,7 +4,11 @@ import React from "react";
 import { ArrowRight } from "lucide-react";
 import { useSelector } from "react-redux";
 import logo from "../assets/logo.png";
-import { configurationSelector } from "../redux/selector/selector";
+import {
+  brandingSelector,
+  configurationSelector,
+} from "../redux/selector/selector";
+import MaintainencePage from "./MaintainencePage";
 
 const Landing = ({ sectionRefs, scrollToSection }) => {
   const { configurationData } = useSelector(configurationSelector);

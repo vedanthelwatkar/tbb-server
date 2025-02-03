@@ -3,9 +3,14 @@ import Landing from "./components/Landing";
 import About from "./components/About";
 import Services from "./components/Services";
 import Book from "./components/Book";
+import { brandingSelector } from "./redux/selector/selector";
+import { useSelector } from "react-redux";
+import MaintainencePage from "./components/MaintainencePage";
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
+  const { brandingData } = useSelector(brandingSelector);
+  console.log("brandingData: ", brandingData);
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,6 +68,10 @@ export default function Home() {
       });
     }
   };
+
+  if (!brandingData?.brandTheme?.isActive) {
+    return <MaintainencePage />;
+  }
 
   return (
     <main className="min-h-screen bg-white">
