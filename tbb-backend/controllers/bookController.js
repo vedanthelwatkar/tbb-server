@@ -34,7 +34,7 @@ const backupAppointment = (appointmentData) => {
 };
 
 export const bookAppointment = (req, res) => {
-  const { name, email, phone, date } = req.body;
+  const { name, email, phone, date, time } = req.body;
 
   const appointmentDateTime = new Date(`${date}T${time}`);
 
