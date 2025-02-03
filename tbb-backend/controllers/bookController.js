@@ -39,7 +39,15 @@ export const bookAppointment = (req, res) => {
   const [year, month, day] = date.split("-");
   const [hours, minutes] = time.split(":");
 
-  const appointmentDate = new Date(year, month - 1, day, hours, minutes);
+  if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+    return res.status(400).json({
+      error: "Invalid time format. Please use 24-hour format (00:00 - 23:59)",
+    });
+  }
+
+  const appointmentDate = new Date(
+    `${year}-${month}-${day}T${hours}:${minutes}:00+10:30`
+  );
 
   const formattedDate = appointmentDate.toLocaleString("en-AU", {
     weekday: "long",
@@ -347,6 +355,7 @@ export const bookAppointment = (req, res) => {
             <div class="detail-row">
               <i class="fas fa-calendar"></i>
               <strong>Session Date and Time:</strong> ${formattedDate}
+              <p><strong>Timezone:</strong> Australian Central Daylight Time (ACDT/UTC+10:30)</p>
             </div>
             <div class="detail-row">
               <i class="fas fa-video"></i>
@@ -361,7 +370,7 @@ export const bookAppointment = (req, res) => {
         </div>
         <div class="footer">
           <p>© ${new Date().getFullYear()} The Banyan Branch</p>
-          <p>This is an automated confirmation. We'll be in touch soon with more details.</p>
+          <strong>Note:</strong> All times are in Australian Central Daylight Time (ACDT/UTC+10:30). Please adjust for your local timezone.
         </div>
       </div>
     </body>
@@ -372,14 +381,14 @@ export const bookAppointment = (req, res) => {
       transporter.sendMail({
         from: '"The Banyan Branch 🏥" <write2priya.r@gmail.com>',
         to: "vedanthelwatkar@gmail.com",
-        subject: `New Appointment: ${name} - ${formattedDate}`,
+        subject: `New Appointment: ${name} - ${formattedDate} ACDT`,
         text: `New appointment booked by ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
         html: emailTemplate,
       }),
       transporter.sendMail({
         from: '"The Banyan Branch 🏥" <write2priya.r@gmail.com>',
         to: email,
-        subject: `Appointment Confirmation: ${name} - ${formattedDate}`,
+        subject: `Appointment Confirmation: ${name} - ${formattedDate} ACDT`,
         text: `Appointment booked for ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
         html: clientTemplate,
       }),
@@ -389,11 +398,9 @@ export const bookAppointment = (req, res) => {
       })
       .catch((error) => {
         console.error("Email sending failed:", error);
-        res
-          .status(200)
-          .json({
-            message: "Appointment Booked, but email notification failed.",
-          });
+        res.status(200).json({
+          message: "Appointment Booked, but email notification failed.",
+        });
       });
   });
 };
