@@ -355,6 +355,10 @@ export const bookAppointment = (req, res) => {
             <div class="detail-row">
               <i class="fas fa-calendar"></i>
               <strong>Session Date and Time:</strong> ${formattedDate}
+              
+            </div>
+            <div class="detail-row">
+              <i class="fas fa-calendar"></i>
               <p><strong>Timezone:</strong> Australian Central Daylight Time (ACDT/UTC+10:30)</p>
             </div>
             <div class="detail-row">
