@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { configurationSelector } from "../redux/selector/selector";
-import { Leaf, Target, Compass } from "lucide-react";
-import nature from "../assets/nature.jpg";
+import { Leaf, Target, Compass, ArrowRight } from "lucide-react";
+import nature from "../assets/logo.png";
+import AMHSWBadge from "../assets/AMHSW-badge.png";
+import ANZAPBadge from "../assets/ANZAP-badge.png";
 
 const About = ({ sectionRefs, scrollToSection }) => {
   const { configurationData } = useSelector(configurationSelector);
@@ -57,7 +59,7 @@ const About = ({ sectionRefs, scrollToSection }) => {
         sectionRef.current = el;
         if (sectionRefs?.about) sectionRefs.about.current = el;
       }}
-      className="py-6 relative overflow-hidden bg-gradient-to-t from-tertiary to-background"
+      className="py-12 relative overflow-hidden bg-gradient-to-t from-tertiary to-background"
     >
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -68,12 +70,24 @@ const About = ({ sectionRefs, scrollToSection }) => {
                 : "opacity-0 -translate-x-10"
             }`}
           >
-            <div className="aspect-square w-full max-w-md mx-auto relative">
+            <div className="aspect-square w-full max-w-md mx-auto relative mb-8">
               <div className="absolute inset-0 bg-primary/10 rounded-full animate-pulse group-hover:animate-none"></div>
               <img
-                src={nature}
+                src={nature || "/placeholder.svg"}
                 alt="Profile"
-                className="absolut rounded-full object-cover z-10 shadow-2xl group-hover:scale-105 transition-transform"
+                className="absolute inset-0 rounded-full object-cover z-10 shadow-2xl group-hover:scale-105 transition-transform"
+              />
+            </div>
+            <div className="flex justify-center space-x-4 mt-6">
+              <img
+                src={ANZAPBadge || "/placeholder.svg"}
+                alt="ANZAP Badge"
+                className="h-28 w-auto"
+              />
+              <img
+                src={AMHSWBadge || "/placeholder.svg"}
+                alt="AMHSW Badge"
+                className="h-28 w-auto"
               />
             </div>
           </div>
@@ -111,6 +125,7 @@ const About = ({ sectionRefs, scrollToSection }) => {
                   </button>
                 ))}
               </div>
+
               <div className="bg-secondary/50 p-6 rounded-xl">
                 <h3 className="text-xl font-semibold text-primary mb-2 animate-text-blur">
                   {features[activeIndex].title}
@@ -128,8 +143,8 @@ const About = ({ sectionRefs, scrollToSection }) => {
               >
                 <span className="flex items-center justify-center gap-2">
                   Get in Touch
-                  <Leaf
-                    className="group-hover:rotate-12 transition-transform"
+                  <ArrowRight
+                    className="group-hover:translate-x-1 transition-transform"
                     size={20}
                   />
                 </span>

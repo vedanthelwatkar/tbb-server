@@ -5,6 +5,7 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { bookSelector, contactsSelector } from "../redux/selector/selector";
 import { bookAppointments, resetBooking } from "../redux/slice/BookSlice";
+import { ArrowRight } from "lucide-react";
 
 const Book = ({ sectionRefs }) => {
   const [formData, setFormData] = useState({
@@ -166,6 +167,22 @@ const Book = ({ sectionRefs }) => {
                 <p className="text-primary animate-text-blur-1">
                   Address: {contactsData.address}
                 </p>
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <p className="text-primary animate-text-blur-1 italic">
+                    "Empowering minds, one conversation at a time."
+                  </p>
+                </div>
+                <div className="mt-2">
+                  <a
+                    href="https://www.psychologytoday.com/au/counselling/priya-rajan-dover-gardens-sa/1164415"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-textSecondary hover:text-blue-500 hover:underline flex items-center transition-colors duration-200"
+                  >
+                    <span>View on Psychology Today</span>
+                    <ArrowRight className="ml-1 h-4 w-4" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>

@@ -1,14 +1,8 @@
-"use client";
-
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import { useSelector } from "react-redux";
 import logo from "../assets/logo.png";
-import {
-  brandingSelector,
-  configurationSelector,
-} from "../redux/selector/selector";
-import MaintainencePage from "./MaintainencePage";
+import { configurationSelector } from "../redux/selector/selector";
 
 const Landing = ({ sectionRefs, scrollToSection }) => {
   const { configurationData } = useSelector(configurationSelector);
@@ -63,7 +57,6 @@ const Landing = ({ sectionRefs, scrollToSection }) => {
         </div>
       </div>
 
-      {/* Subtle Background Gradient */}
       <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-tertiary/20 to-transparent pointer-events-none"></div>
     </section>
   );
