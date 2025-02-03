@@ -18,7 +18,7 @@ export const updateBranding = (req, res) => {
                       tertiary_color = ?, 
                       text_base_color = ?,
                       text_secondary_color = ?,
-                      theme_font = ?;
+                      theme_font = ?,
                       isActive = ?`;
 
   pool.query(
