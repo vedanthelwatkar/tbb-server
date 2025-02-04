@@ -384,7 +384,7 @@ export const bookAppointment = (req, res) => {
     Promise.all([
       transporter.sendMail({
         from: '"The Banyan Branch 🏥" <write2priya.r@gmail.com>',
-        to: "vedanthelwatkar@gmail.com",
+        to: "info@thebanyanbranch.com",
         subject: `New Appointment: ${name} - ${formattedDate} ACDT`,
         text: `New appointment booked by ${name} for ${formattedDate}. Contact: ${phone}, Email: ${email}`,
         html: emailTemplate,
