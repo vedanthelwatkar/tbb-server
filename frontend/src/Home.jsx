@@ -6,11 +6,11 @@ import Book from "./components/Book";
 import { brandingSelector } from "./redux/selector/selector";
 import { useSelector } from "react-redux";
 import MaintainencePage from "./components/MaintainencePage";
+import FadeIn from "./helper/FadeIn";
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const { brandingData } = useSelector(brandingSelector);
-  console.log("brandingData: ", brandingData);
 
   useEffect(() => {
     const handleResize = () => {
@@ -39,8 +39,7 @@ export default function Home() {
 
       Object.entries(sectionRefs).forEach(([key, ref]) => {
         if (ref.current) {
-          const element = ref.current;
-          const { offsetTop, offsetHeight } = element;
+          const { offsetTop, offsetHeight } = ref.current;
 
           if (
             scrollPosition >= offsetTop - 100 &&
@@ -59,11 +58,8 @@ export default function Home() {
   const scrollToSection = (sectionId) => {
     const element = sectionRefs[sectionId].current;
     if (element) {
-      const offset = 80;
-      const elementPosition =
-        element.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
-        top: elementPosition - offset,
+        top: element.offsetTop - 80,
         behavior: "smooth",
       });
     }
@@ -77,23 +73,19 @@ export default function Home() {
     <main className="min-h-screen bg-white">
       <nav className="sticky top-0 left-0 right-0 bg-white shadow-md z-50">
         <div className="container mx-auto px-4">
-          <ul className="flex justify-center py-4 px-2" style={{}}>
+          <ul className="flex justify-center py-4 px-2">
             {["Home", "About", "Services", "Contact"].map((item) => (
               <li key={item}>
                 <button
                   className={`text-textBase rounded-md transition-colors ${
-                    activeSection === item.toLowerCase().split(" ")[0]
+                    activeSection === item.toLowerCase()
                       ? "bg-tertiary font-semibold"
                       : "hover:bg-tertiary/50"
                   }`}
                   style={{
-                    padding: isMobile
-                      ? "4px 12px 4px 12px"
-                      : "8px 16px 8px 16px",
+                    padding: isMobile ? "4px 12px" : "8px 16px",
                   }}
-                  onClick={() =>
-                    scrollToSection(item.toLowerCase().split(" ")[0])
-                  }
+                  onClick={() => scrollToSection(item.toLowerCase())}
                 >
                   {item}
                 </button>
@@ -103,13 +95,19 @@ export default function Home() {
         </div>
       </nav>
 
-      <Landing sectionRefs={sectionRefs} scrollToSection={scrollToSection} />
+      <FadeIn ref={sectionRefs.home}>
+        <Landing scrollToSection={scrollToSection} />
+      </FadeIn>
 
       <About sectionRefs={sectionRefs} scrollToSection={scrollToSection} />
 
-      <Services sectionRefs={sectionRefs} />
+      <FadeIn ref={sectionRefs.services}>
+        <Services />
+      </FadeIn>
 
-      <Book sectionRefs={sectionRefs} />
+      <FadeIn ref={sectionRefs.contact} duration={10}>
+        <Book />
+      </FadeIn>
     </main>
   );
 }

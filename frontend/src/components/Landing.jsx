@@ -4,14 +4,11 @@ import { useSelector } from "react-redux";
 import logo from "../assets/logo.png";
 import { configurationSelector } from "../redux/selector/selector";
 
-const Landing = ({ sectionRefs, scrollToSection }) => {
+const Landing = ({ scrollToSection }) => {
   const { configurationData } = useSelector(configurationSelector);
 
   return (
-    <section
-      ref={sectionRefs?.home}
-      className="pt-6 min-h-[calc(100vh-68px)] flex items-center relative overflow-hidden"
-    >
+    <section className="pt-6 min-h-[calc(100vh-68px)] flex items-center relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-tertiary to-background opacity-50 blur-xl"></div>
 
       <div className="container mx-auto px-4 relative z-10">
