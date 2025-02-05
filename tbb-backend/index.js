@@ -8,6 +8,7 @@ import configureRoutes from "./routes/configureRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
 import bookRoutes from "./routes/bookRoutes.js";
+import statusRoutes from "./routes/statusRoutes.js";
 import { rateLimiter } from "./middlewares/rateLimiter.js";
 
 const app = express();
@@ -24,6 +25,7 @@ app.use("/profile", profileRoutes);
 app.use("/configure", configureRoutes);
 app.use("/analytics", analyticsRoutes);
 app.use("/book", bookRoutes);
+app.use("/status", statusRoutes);
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;

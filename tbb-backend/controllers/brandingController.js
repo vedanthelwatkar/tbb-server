@@ -9,7 +9,6 @@ export const updateBranding = (req, res) => {
     text_base_color,
     text_secondary_color,
     theme_font,
-    isActive,
   } = data;
 
   const query = `UPDATE themes 
@@ -18,8 +17,7 @@ export const updateBranding = (req, res) => {
                       tertiary_color = ?, 
                       text_base_color = ?,
                       text_secondary_color = ?,
-                      theme_font = ?,
-                      isActive = ?`;
+                      theme_font = ?`;
 
   pool.query(
     query,
@@ -30,7 +28,6 @@ export const updateBranding = (req, res) => {
       text_base_color,
       text_secondary_color,
       theme_font,
-      isActive,
     ],
     (err) => {
       if (err) {
