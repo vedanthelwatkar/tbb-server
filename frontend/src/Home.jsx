@@ -70,7 +70,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-tertiary">
       <nav className="sticky top-0 left-0 right-0 bg-white shadow-md z-50">
         <div className="container mx-auto px-4">
           <ul className="flex justify-center py-4 px-2">
@@ -103,10 +103,8 @@ export default function Home() {
 
       <FadeIn ref={sectionRefs.services}>
         <Services />
-      </FadeIn>
 
-      <FadeIn ref={sectionRefs.contact} duration={10}>
-        <Book />
+        <Book ref={sectionRefs.services} />
       </FadeIn>
     </main>
   );

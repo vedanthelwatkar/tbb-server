@@ -7,7 +7,7 @@ import { bookSelector, contactsSelector } from "../redux/selector/selector";
 import { bookAppointments, resetBooking } from "../redux/slice/BookSlice";
 import { ArrowRight } from "lucide-react";
 
-const Book = () => {
+const Book = ({ sectionRef }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -146,7 +146,10 @@ const Book = () => {
   };
 
   return (
-    <section className="pt-12 pb-28 bg-gradient-to-t from-tertiary to-background">
+    <section
+      ref={sectionRef?.book}
+      className="pt-12 pb-28 bg-gradient-to-t from-tertiary to-white"
+    >
       <ToastContainer />
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-center md:space-x-12 space-y-12 md:space-y-0">

@@ -8,9 +8,7 @@ const Landing = ({ scrollToSection }) => {
   const { configurationData } = useSelector(configurationSelector);
 
   return (
-    <section className="pt-6 min-h-[calc(100vh-68px)] flex items-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-tertiary to-background opacity-50 blur-xl"></div>
-
+    <section className="bg-gradient-to-t from-white to-tertiary pt-6 min-h-[calc(100vh-68px)] flex items-center relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid md:grid-cols-[2fr_1fr] items-center gap-12">
           <div className="md:pl-12 space-y-8">
@@ -53,8 +51,6 @@ const Landing = ({ scrollToSection }) => {
           </div>
         </div>
       </div>
-
-      <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-tertiary/20 to-transparent pointer-events-none"></div>
     </section>
   );
 };

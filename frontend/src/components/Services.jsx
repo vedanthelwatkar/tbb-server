@@ -14,8 +14,6 @@ import {
   Compass,
   Gift,
   Map,
-  Grid,
-  List,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -23,7 +21,6 @@ import {
 const Services = () => {
   const { configurationData } = useSelector(configurationSelector);
   const [services, setServices] = useState([]);
-  const [isGridView, setIsGridView] = useState(false);
   const carouselRef = useRef(null);
   const icons = [
     Leaf,
@@ -47,16 +44,14 @@ const Services = () => {
       description: item.description || "Description",
     }));
     setServices(serviceData || []);
-  }, [configurationData]); // Removed icons from dependency array
+  }, [configurationData]);
 
   useEffect(() => {
     const carousel = carouselRef.current;
-    if (!carousel || services.length === 0 || isGridView) return;
+    if (!carousel || services.length === 0) return;
 
     const cardWidth = 320;
     const containerWidth = carousel.clientWidth;
-    const totalCarouselWidth = services.length * cardWidth;
-    const centerOffset = (totalCarouselWidth - containerWidth) / 2;
 
     const handleScroll = () => {
       const scrollPos = carousel.scrollLeft;
@@ -74,11 +69,7 @@ const Services = () => {
 
     carousel.addEventListener("scroll", handleScroll);
     return () => carousel.removeEventListener("scroll", handleScroll);
-  }, [services, isGridView]);
-
-  const toggleView = () => {
-    setIsGridView(!isGridView);
-  };
+  }, [services]);
 
   const scrollCarousel = (direction) => {
     const carousel = carouselRef.current;
@@ -89,79 +80,55 @@ const Services = () => {
   };
 
   return (
-    <section className="pt-8 bg-gradient-to-b from-tertiary to-background overflow-hidden">
-      <div className="px-4 md:px-12 w-full items-center justify-center flex flex-col">
+    <section className="px-7 pt-8 bg-gradient-to-b from-tertiary to-white overflow-hidden">
+      <div className="w-full items-center justify-center flex flex-col">
         <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-12 animate-text-blur">
           Our Services
         </h2>
-        {!isGridView && (
-          <>
-            <button
-              onClick={() => scrollCarousel("left")}
-              className="ml-3 absolute left-0 top-1/2 -translate-y-1/2 z-10"
-              variant="ghost"
-              size="icon"
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </button>
-            <button
-              onClick={() => scrollCarousel("right")}
-              className="mr-3 absolute right-0 top-1/2 -translate-y-1/2 z-10"
-              variant="ghost"
-              size="icon"
-            >
-              <ChevronRight className="h-6 w-6" />
-            </button>
-          </>
-        )}
-        <div
-          ref={carouselRef}
-          className={`w-full ${
-            isGridView
-              ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-              : "overflow-x-auto snap-x snap-mandatory flex space-x-4 pb-8 scroll-smooth"
-          }`}
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
-        >
-          {services.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={index}
-                className={`service-item ${
-                  isGridView
-                    ? "w-full"
-                    : "flex-shrink-0 w-80 snap-center mobile:opacity-50 mobile:scale-95 md:opacity-100 md:scale-100"
-                } transition-all duration-500 ease-out`}
-              >
-                <div className="flex flex-col items-center text-center p-6 rounded-lg shadow-md h-full bg-secondary">
-                  <Icon className="h-12 w-12 text-primary mb-4" />
-                  <h3 className="text-xl font-semibold text-primary mb-2 animate-text-blur-1">
-                    {item.title}
-                  </h3>
-                  <p className="text-textSecondary animate-text-blur-2">
-                    {item.description}
-                  </p>
+        <div className="relative w-full px-4 md:px-12">
+          <button
+            onClick={() => scrollCarousel("left")}
+            className="absolute left-0 top-[42.5%] -translate-y-1/2 z-10 bg-secondary hover:bg-primary text-white rounded-full p-2 shadow-lg transition-all duration-300 ease-in-out"
+            aria-label="Previous service"
+          >
+            <ChevronLeft className="h-6 w-6" />
+          </button>
+          <button
+            onClick={() => scrollCarousel("right")}
+            className="absolute right-0 top-[42.5%] -translate-y-1/2 z-10 bg-secondary hover:bg-primary text-white rounded-full p-2 shadow-lg transition-all duration-300 ease-in-out"
+            aria-label="Next service"
+          >
+            <ChevronRight className="h-6 w-6" />
+          </button>
+          <div
+            ref={carouselRef}
+            className="w-full overflow-x-auto snap-x snap-mandatory flex space-x-4 pb-8 scroll-smooth"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            {services.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={index}
+                  className="service-item flex-shrink-0 w-80 snap-center transition-all duration-500 ease-out"
+                >
+                  <div className="flex flex-col items-center text-center p-6 rounded-lg shadow-md h-full bg-secondary hover:shadow-lg transition-shadow duration-300">
+                    <Icon className="h-12 w-12 text-primary mb-4" />
+                    <h3 className="text-xl font-semibold text-primary mb-2 animate-text-blur-1">
+                      {item.title}
+                    </h3>
+                    <p className="text-textSecondary animate-text-blur-2">
+                      {item.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-        <button
-          onClick={toggleView}
-          className="text-textSecondary mt-8 flex items-center gap-2"
-          variant="outline"
-        >
-          {isGridView ? (
-            <List className="h-4 w-4" />
-          ) : (
-            <Grid className="h-4 w-4" />
-          )}
-          {isGridView ? "Switch to Carousel View" : "Switch to Grid View"}
-        </button>
       </div>
     </section>
   );
