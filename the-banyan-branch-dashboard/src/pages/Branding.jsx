@@ -7,8 +7,6 @@ import {
   Form,
   notification,
   Space,
-  Switch,
-  Typography,
 } from "antd";
 import CardTitle from "../components/CardTitle";
 import {
@@ -17,10 +15,7 @@ import {
   updateBranding,
 } from "../redux/slice/BrandingSlice";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  brandingSelector,
-  getConstantsSelector,
-} from "../redux/selector/selectors";
+import { brandingSelector } from "../redux/selector/selectors";
 import { openNotificationWithIcon } from "../helper";
 import FontPicker from "../components/FontPicker";
 import { ReloadOutlined } from "@ant-design/icons";
@@ -87,7 +82,6 @@ const Branding = () => {
 
   useEffect(() => {
     dispatch(getBranding());
-    dispatch(getIsActive());
   }, [dispatch]);
 
   useEffect(() => {
