@@ -38,7 +38,9 @@ const DashboardLayout = () => {
   const handleStatusConfirm = () => {
     dispatch(updateStatus({ isActive: Number(!isActive) }));
     setIsStatusModalOpen(false);
-    dispatch(getStatus());
+    setTimeout(() => {
+      dispatch(getStatus());
+    }, [200]);
   };
 
   useEffect(() => {
