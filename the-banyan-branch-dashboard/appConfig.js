@@ -15,6 +15,8 @@ export const ApiEndPoints = {
   UPDATE_SECTION: "/configure/update",
   GET_ANALYTICS: "/analytics",
   BOOK: "/book",
+  UPDATE_STATUS: "/status",
+  GET_STATUS: "/status",
 };
 
 export const returnHeader = (

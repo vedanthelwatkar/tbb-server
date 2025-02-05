@@ -24,7 +24,6 @@ import {
 import { openNotificationWithIcon } from "../helper";
 import FontPicker from "../components/FontPicker";
 import { ReloadOutlined } from "@ant-design/icons";
-import { getIsActive } from "../redux/slice/GetConstantsSlice";
 
 const Branding = () => {
   const isMobile = window.screen.width < 768;
@@ -36,7 +35,6 @@ const Branding = () => {
     updateBrandingError,
     updateBrandingLoading,
   } = useSelector(brandingSelector);
-  const { isWebActive } = useSelector(getConstantsSelector);
 
   const [primaryColor, setPrimaryColor] = useState("");
   const [secondaryColor, setSecondaryColor] = useState("");
@@ -44,7 +42,6 @@ const Branding = () => {
   const [textBaseColor, setTextBaseColor] = useState("");
   const [textSecondaryColor, setTextSecondaryColor] = useState("");
   const [themeFont, setThemeFont] = useState("");
-  const [isActive, setIsActive] = useState(false);
 
   const [api, contextHolder] = notification.useNotification({ maxCount: 1 });
 
@@ -128,10 +125,6 @@ const Branding = () => {
     }
   }, [updateBrandingSuccess, updateBrandingError]);
 
-  useEffect(() => {
-    setIsActive(isWebActive);
-  }, [isWebActive]);
-
   return (
     <>
       {contextHolder}
@@ -140,13 +133,6 @@ const Branding = () => {
         title={<CardTitle title="Branding" />}
         extra={
           <Flex gap={16} className="items-center justify-center">
-            <Flex gap={8}>
-              <Typography.Text>Is Website Active</Typography.Text>
-              <Switch
-                value={isActive}
-                onChange={() => setIsActive(Number(!isActive))}
-              />
-            </Flex>
             <Button
               type="primary"
               onClick={() => form.submit()}

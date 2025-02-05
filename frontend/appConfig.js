@@ -7,6 +7,7 @@ export const ApiEndPoints = {
   GET_PROFILE: "/profile",
   BOOK: "/book",
   GET_CONFIGURATION: "/configure/allDetails",
+  GET_STATUS: "/status",
 };
 
 export const returnHeader = (

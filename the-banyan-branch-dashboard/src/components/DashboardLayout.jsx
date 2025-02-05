@@ -1,28 +1,58 @@
 import React, { useEffect, useState } from "react";
-import { Button, Flex, Layout, Typography } from "antd";
+import { Button, Flex, Layout, Switch, Typography } from "antd";
 import "../style/dashboard.css";
 import SideBar from "../pages/SideBar";
 import { Outlet } from "react-router-dom";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { useTheme } from "./ThemeContext";
 import logo from "../assets/logo.png";
+import {
+  getConstantsSelector,
+  statusSelector,
+} from "../redux/selector/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import StatusConfirm from "./StatusConfirm";
+import { getStatus, updateStatus } from "../redux/slice/StatusSlice";
 
 const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
 
 const DashboardLayout = () => {
+  const dispatch = useDispatch();
   const isMobile = window.screen.width < 768;
   const [siderOpen, setSiderOpen] = useState(!isMobile);
   const { themeMode } = useTheme();
   const [isDarkMode, setIsDarkMode] = useState();
+  const [isActive, setIsActive] = useState(false);
+  const { statusData } = useSelector(statusSelector);
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
+
+  const handleStatusClick = () => {
+    setIsStatusModalOpen(true);
+  };
+
+  const handleSider = () => {
+    setSiderOpen(!siderOpen);
+  };
+
+  const handleStatusConfirm = () => {
+    dispatch(updateStatus({ isActive: Number(!isActive) }));
+    setIsStatusModalOpen(false);
+    dispatch(getStatus());
+  };
+
+  useEffect(() => {
+    dispatch(getStatus());
+  }, []);
 
   useEffect(() => {
     setIsDarkMode(themeMode === "dark");
   }, [themeMode]);
 
-  const handleSider = () => {
-    setSiderOpen(!siderOpen);
-  };
+  useEffect(() => {
+    setIsActive(statusData?.isActive);
+  }, [statusData]);
+
   return (
     <Layout className="w-[100vw] h-[100vh]">
       <Header
@@ -39,6 +69,10 @@ const DashboardLayout = () => {
           <Title level={4} style={{ margin: 0 }}>
             The Banyan Branch
           </Title>
+          <Flex gap={8} className="absolute right-8">
+            <Typography.Text>Status</Typography.Text>
+            <Switch value={isActive} onChange={handleStatusClick} />
+          </Flex>
         </Flex>
       </Header>
       <Layout>
@@ -78,6 +112,12 @@ const DashboardLayout = () => {
           <Outlet />
         </Content>
       </Layout>
+      <StatusConfirm
+        isOpen={isStatusModalOpen}
+        onClose={() => setIsStatusModalOpen(false)}
+        onConfirm={handleStatusConfirm}
+        currentStatus={isActive}
+      />
     </Layout>
   );
 };

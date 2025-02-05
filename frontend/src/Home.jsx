@@ -3,7 +3,7 @@ import Landing from "./components/Landing";
 import About from "./components/About";
 import Services from "./components/Services";
 import Book from "./components/Book";
-import { brandingSelector } from "./redux/selector/selector";
+import { brandingSelector, statusSelector } from "./redux/selector/selector";
 import { useSelector } from "react-redux";
 import MaintainencePage from "./components/MaintainencePage";
 import FadeIn from "./helper/FadeIn";
@@ -11,6 +11,7 @@ import FadeIn from "./helper/FadeIn";
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const { brandingData } = useSelector(brandingSelector);
+  const { statusData } = useSelector(statusSelector);
 
   useEffect(() => {
     const handleResize = () => {
@@ -65,7 +66,7 @@ export default function Home() {
     }
   };
 
-  if (!brandingData?.brandTheme?.isActive) {
+  if (!statusData?.isActive) {
     return <MaintainencePage />;
   }
 

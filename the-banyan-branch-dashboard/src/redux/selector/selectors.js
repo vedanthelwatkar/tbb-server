@@ -30,7 +30,12 @@ export const analyticsSelector = createSelector(
   (state) => state.AnalyticsSlice
 );
 
-export const boookSelector = createSelector(
+export const bookSelector = createSelector(
   (state) => state,
   (state) => state.BookSlice
+);
+
+export const statusSelector = createSelector(
+  (state) => state,
+  (state) => state.StatusSlice
 );

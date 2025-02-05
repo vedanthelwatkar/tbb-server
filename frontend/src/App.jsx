@@ -7,6 +7,7 @@ import Home from "./Home";
 import { getConfiguration } from "./redux/slice/ConfigurationSlice";
 import { getContacts } from "./redux/slice/ContactsSlice";
 import { getAppointments } from "./redux/slice/BookSlice";
+import { getStatus } from "./redux/slice/StatusSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ function App() {
     dispatch(getConfiguration());
     dispatch(getContacts());
     dispatch(getAppointments());
+    dispatch(getStatus());
   }, [dispatch]);
 
   useEffect(() => {

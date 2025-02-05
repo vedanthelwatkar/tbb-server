@@ -19,30 +19,12 @@ export const getConstants = createAsyncThunk(
   }
 );
 
-export const getIsActive = createAsyncThunk(
-  "getIsActive",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios({
-        method: "GET",
-        url: `${appconfig.BASE_URL}${ApiEndPoints.GET_CONSTANTS}`,
-        headers: returnHeader(true),
-      });
-      return response.data.brandTheme.isActive;
-    } catch (e) {
-      console.error(e);
-      return rejectWithValue(e.response?.data || e.message);
-    }
-  }
-);
-
 const GetConstantsSlice = createSlice({
   name: "getConstants",
   initialState: {
     data: null,
     error: null,
     loading: false,
-    isWebActive: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -55,19 +37,6 @@ const GetConstantsSlice = createSlice({
       state.error = false;
     });
     builder.addCase(getConstants.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    });
-
-    builder.addCase(getIsActive.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(getIsActive.fulfilled, (state, action) => {
-      state.loading = false;
-      state.isWebActive = action.payload;
-      state.error = false;
-    });
-    builder.addCase(getIsActive.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });

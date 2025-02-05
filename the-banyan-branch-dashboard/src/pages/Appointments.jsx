@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table, Card } from "antd";
 import { getAppointments } from "../redux/slice/BookSlice";
-import { boookSelector } from "../redux/selector/selectors";
+import { bookSelector } from "../redux/selector/selectors";
 import CardTitle from "../components/CardTitle";
 
 const Appointments = () => {
   const dispatch = useDispatch();
   const [sort, setSort] = useState("asc");
-  const { bookData, bookLoading } = useSelector(boookSelector);
+  const { bookData, bookLoading } = useSelector(bookSelector);
 
   useEffect(() => {
     dispatch(getAppointments(sort));
