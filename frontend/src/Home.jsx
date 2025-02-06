@@ -104,9 +104,9 @@ export default function Home() {
 
       <FadeIn ref={sectionRefs.services}>
         <Services />
-
-        <Book ref={sectionRefs.services} />
       </FadeIn>
+
+      <Book ref={sectionRefs.services} />
     </main>
   );
 }
