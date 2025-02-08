@@ -9,7 +9,6 @@ import authRoutes from "./routes/authRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
 import bookRoutes from "./routes/bookRoutes.js";
 import statusRoutes from "./routes/statusRoutes.js";
-import { rateLimiter } from "./middlewares/rateLimiter.js";
 
 const app = express();
 
