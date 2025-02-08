@@ -83,6 +83,7 @@ export const getStatus = (req, res) => {
     if (err) {
       return res.status(500).json({
         error: "Failed to fetch status",
+        stack: err.stack,
       });
     }
 
