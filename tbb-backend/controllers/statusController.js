@@ -75,7 +75,7 @@ export const getStatus = (req, res) => {
   const query = `
     SELECT status as isActive 
     FROM status_history 
-    ORDER BY created_at DESC
+    ORDER BY changed_at DESC
     LIMIT 1
   `;
 
