@@ -9,14 +9,11 @@ import authRoutes from "./routes/authRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
 import bookRoutes from "./routes/bookRoutes.js";
 import statusRoutes from "./routes/statusRoutes.js";
-import { rateLimiter } from "./middlewares/rateLimiter.js";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-app.use(rateLimiter);
 
 app.use("/auth", authRoutes);
 app.use("/constants", constantsRoutes);
