@@ -16,10 +16,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.set("trust proxy", 1);
-
-app.use(rateLimiter);
-
 app.use("/auth", authRoutes);
 app.use("/constants", constantsRoutes);
 app.use("/branding", brandingRoutes);
