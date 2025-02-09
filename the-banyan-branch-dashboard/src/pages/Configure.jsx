@@ -19,6 +19,7 @@ import {
 import CardTitle from "../components/CardTitle.jsx";
 import { configurationSelector } from "../redux/selector/selectors.js";
 import { openNotificationWithIcon } from "../helper/index.js";
+import { useNavigate } from "react-router-dom";
 
 const { TextArea } = Input;
 
@@ -31,12 +32,15 @@ const options = [
 
 const Configure = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [api, contextHolder] = notification.useNotification({ maxCount: 1 });
   const [currentPage, setCurrentPage] = useState("home");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
-  const { configurationData } = useSelector(configurationSelector);
+  const { configurationData, configurationError } = useSelector(
+    configurationSelector
+  );
 
   useEffect(() => {
     dispatch(getConfiguration("home"));

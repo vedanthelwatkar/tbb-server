@@ -76,6 +76,12 @@ const ConfigurationSlice = createSlice({
       state.updateConfigurationSuccess = false;
       state.updateConfigurationError = false;
     },
+    resetGetConfiguration: (state) => {
+      state.configurationLoading = false;
+      state.configurationSuccess = false;
+      state.configurationError = false;
+      state.configurationData = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getConfiguration.pending, (state) => {
@@ -130,6 +136,7 @@ const ConfigurationSlice = createSlice({
   },
 });
 
-export const { resetUpdateConfiguration } = ConfigurationSlice.actions;
+export const { resetUpdateConfiguration, resetGetConfiguration } =
+  ConfigurationSlice.actions;
 
 export default ConfigurationSlice.reducer;
