@@ -15,7 +15,7 @@ import {
   updateBranding,
 } from "../redux/slice/BrandingSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { brandingSelector } from "../redux/selector/selectors";
+import { brandingSelector, statusSelector } from "../redux/selector/selectors";
 import { openNotificationWithIcon } from "../helper";
 import FontPicker from "../components/FontPicker";
 import { ReloadOutlined } from "@ant-design/icons";
@@ -30,17 +30,24 @@ const Branding = () => {
     updateBrandingError,
     updateBrandingLoading,
   } = useSelector(brandingSelector);
+  const { statusData } = useSelector(statusSelector);
 
   const [primaryColor, setPrimaryColor] = useState("");
   const [secondaryColor, setSecondaryColor] = useState("");
   const [tertiaryColor, setTertiaryColor] = useState("");
   const [textBaseColor, setTextBaseColor] = useState("");
+  const [isActive, setIsActive] = useState(false);
+
   const [textSecondaryColor, setTextSecondaryColor] = useState("");
   const [themeFont, setThemeFont] = useState("");
 
   const [api, contextHolder] = notification.useNotification({ maxCount: 1 });
 
   const iframeRef = useRef(null);
+
+  useEffect(() => {
+    setIsActive(statusData?.isActive);
+  }, [statusData]);
 
   const handleReload = () => {
     if (iframeRef.current) {
