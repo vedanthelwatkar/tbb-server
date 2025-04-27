@@ -145,25 +145,6 @@ const Profile = () => {
                   </Text>
                 )}
               </Form.Item>
-              <Form.Item
-                label="Address"
-                name="address"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your address number!",
-                  },
-                ]}
-              >
-                {isEditing ? (
-                  <Input size="large" placeholder="Address" />
-                ) : (
-                  <Text className="text-base">
-                    {" - "}
-                    {form.getFieldValue("address")}
-                  </Text>
-                )}
-              </Form.Item>
             </Col>
           </Row>
         </Form>

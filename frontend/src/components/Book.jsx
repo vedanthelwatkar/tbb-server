@@ -37,9 +37,10 @@ const Book = ({ sectionRefs }) => {
 
   const generateTimeSlots = () => {
     const slots = [];
-    for (let hour = 11; hour <= 17; hour++) {
-      const time = `${hour.toString().padStart(2, "0")}:00`;
-      slots.push(time);
+    for (let hour = 11; hour <= 16; hour++) {
+      const start = `${hour.toString().padStart(2, "0")}:00`;
+      const end = `${hour.toString().padStart(2, "0")}:50`;
+      slots.push({ start, end });
     }
     return slots;
   };
@@ -164,9 +165,6 @@ const Book = ({ sectionRefs }) => {
                 </p>
                 <p className="text-primary animate-text-blur-1">{`Email: ${contactsData.email}`}</p>
                 <p className="text-primary animate-text-blur-1">{`Phone: ${contactsData.phone}`}</p>
-                <p className="text-primary animate-text-blur-1">
-                  Address: {contactsData.address}
-                </p>
                 <div className="mt-6 pt-6 border-t border-gray-200">
                   <p className="text-primary animate-text-blur-1 italic">
                     "Empowering minds, one conversation at a time."
@@ -205,7 +203,7 @@ const Book = ({ sectionRefs }) => {
                     className={`w-full px-4 py-2 rounded-md border ${
                       errors.name ? "border-red-500" : "border-[#8DB45C]"
                     } focus:outline-none focus:ring-2 focus:ring-[#0D530B]`}
-                    placeholder="John Doe"
+                    placeholder="Name"
                   />
                   {errors.name && (
                     <p className="text-red-500 text-sm">{errors.name}</p>
@@ -224,7 +222,7 @@ const Book = ({ sectionRefs }) => {
                     className={`w-full px-4 py-2 rounded-md border ${
                       errors.email ? "border-red-500" : "border-[#8DB45C]"
                     } focus:outline-none focus:ring-2 focus:ring-[#0D530B]`}
-                    placeholder="john@example.com"
+                    placeholder="email@example.com"
                   />
                   {errors.email && (
                     <p className="text-red-500 text-sm">{errors.email}</p>
@@ -297,16 +295,13 @@ const Book = ({ sectionRefs }) => {
                     } focus:outline-none focus:ring-2 focus:ring-[#0D530B]`}
                   >
                     <option value="">Select a time</option>
-                    {generateTimeSlots().map((time) => (
-                      <option key={time} value={time}>
-                        {time} -{" "}
-                        {time === "17:00"
-                          ? "17:50"
-                          : `${Number.parseInt(time) + 1}:50`}{" "}
-                        ACDT
+                    {generateTimeSlots().map(({ start, end }) => (
+                      <option key={start} value={start}>
+                        {start} - {end} ACDT
                       </option>
                     ))}
                   </select>
+
                   {errors.time && (
                     <p className="text-red-500 text-sm">{errors.time}</p>
                   )}
