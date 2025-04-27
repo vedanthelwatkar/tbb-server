@@ -66,9 +66,14 @@ export default function Home() {
     }
   };
 
-  if (!statusData?.isActive) {
-    return <MaintainencePage />;
-  }
+  useEffect(()=>{
+    setTimeout(()=>{
+      if (!statusData?.isActive) {
+        return <MaintainencePage />;
+      }
+    },[500])
+  },[statusData])
+
 
   return (
     <main className="min-h-screen bg-tertiary">
