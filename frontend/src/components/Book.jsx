@@ -260,7 +260,9 @@ const Book = ({ sectionRefs }) => {
                     <p className="text-red-500 text-sm">{errors.phone}</p>
                   )}
                 </div>
-
+                {/* <p className="text-primary animate-text-blur-1">
+                  Address: {contactsData.address}
+                </p> */}
                 <div className="space-y-2">
                   <label className="block text-primary font-medium animate-text-blur-1">
                     Preferred Date (Monday/Tuesday only)
